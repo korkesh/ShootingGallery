@@ -44,8 +44,21 @@ namespace Editor
                 propsCopy.Name = value.Name;
                 propsCopy.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = value["OutlineColor"] });
                 propsCopy.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = value["FillColor"] });
-                CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] };
-                propsCopy.TryAdd(dim);
+
+                if (Type == EntityType.RECT)
+                {
+                    CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] };
+                    propsCopy.TryAdd(dim);
+
+                }
+                else if (Type == EntityType.CIRCLE)
+                {
+                    CustomProperty rad = new CustomProperty { Name = "Radius", Type = typeof(int), DefaultValue = value["Radius"] };
+                    CustomProperty pos = new CustomProperty { Name = "Position", Type = typeof(Point), DefaultValue = value["Position"] };
+
+                    propsCopy.TryAdd(rad);
+                    propsCopy.TryAdd(pos);
+                }
                 m_props = propsCopy;
             }
         }
@@ -134,18 +147,33 @@ namespace Editor
             // Don't forget you also need to initialise the BoundingBox delegates.
             ge.Props.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = Color.Magenta });
             ge.Props.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = Color.Transparent });
-            CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(position.X, position.Y, radius * 2, radius * 2) };
-            ge.Props.TryAdd(dim);
+            CustomProperty rad = new CustomProperty { Name = "Radius", Type = typeof(int), DefaultValue = radius };
+            CustomProperty pos = new CustomProperty { Name = "Position", Type = typeof(Point), DefaultValue = new Point(position.X, position.Y) };
+            ge.Props.TryAdd(rad);
+            ge.Props.TryAdd(pos);
             //ge.Props.TryAdd(new CustomProperty { Name = "DynamicProperties", Type = typeof(CustomPropertyDictionary), DefaultValue = new CustomPropertyDictionary() });
 
             ge.SetBoundingBox = new delSetBoundingBox(delegate (Rectangle r)
             {
-                ge.Props["Dimensions"] = r;
+                ge.Props["Radius"] = r.Width/2;
+                ge.Props["Position"] = r.Location;
+
             });
 
             ge.GetBoundingBox = new delGetBoundingBox(delegate ()
             {
-                return ge.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
+                Size sizeDefault = new Size((int)rad.DefaultValue * 2, (int)rad.DefaultValue * 2);
+                Rectangle bb = new Rectangle ((Point)pos.DefaultValue, sizeDefault);
+
+                if (!(ge.Props["Radius"] == null && ge.Props["Position"] == null))
+                {
+                    Size size = new Size((int)ge.Props["Radius"] * 2, (int)ge.Props["Radius"] * 2);
+                    bb = new Rectangle((Point)ge.Props["Position"], size);
+
+                }
+
+                return bb;
+
             });
 
 

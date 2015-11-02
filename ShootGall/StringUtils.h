@@ -78,4 +78,23 @@ namespace StringUtils {
 
 		return c;
 	}
+
+	//Explicit specialisation of the FromString overly trusting 
+	// conversion routine for handling Points.
+	template<>
+	sf::Vector2<float> FromString(std::string const &in) {
+		sf::Vector2<float> c;
+		std::vector<std::string> nums = split(in, ',');
+		if (nums.size() != 2) {
+			return c;
+		}
+
+		std::string subX = nums[0].substr(3);
+		std::string subY = nums[1].substr(2, nums[1].size()-1);
+
+		c.x = FromString<int>(subX);
+		c.y = FromString<int>(subY);
+
+		return c;
+	}
 }

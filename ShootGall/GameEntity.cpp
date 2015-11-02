@@ -66,8 +66,43 @@ GameEntity *StaticEntity::CreateCircularEntity(Editor::EntityType type, int ID,
 	std::map<std::string, std::string> &props) {
 	StaticEntity *ge = new StaticEntity(ID);
 	ge->m_drawShape = new sf::CircleShape();
+
 	//MIDTERM: You got this right?
-	
+	ge->m_drawShape->setOutlineThickness(1.0f);
+	//Check that all properties are present, convert them from strings to the required data type,
+	// and set up the object. Note that ideally the order in which the properties are processed should
+	// not matter.
+	bool propMissing = false;
+	for (std::size_t i = 0; i < Editor::EntityProperties[(int)type].size(); i++) {
+		std::string propName = Editor::EntityProperties[(int)type][i];
+		std::map<std::string, std::string>::iterator it = props.find(propName);
+		//Currently we fail as soon as we miss a single value - if we have optional parameters we will
+		// need to make this logic a bit more complex.
+		if (it == props.end()) {
+			propMissing = true;
+			delete ge;
+			return NULL;
+		}
+		else {
+			//If the property is found, convert it to the appropriate type and initialise the object with
+			// the value.
+			if (propName == "Position") {
+				sf::Vector2<float> point = StringUtils::FromString<sf::Vector2<float>>(it->second);
+				ge->m_drawShape->setPosition(sf::Vector2f((float)point.x, (float)point.y));
+			}
+			else if (propName == "Radius") {
+				float radius = StringUtils::FromString<float>(it->second);
+				((sf::CircleShape *)(ge->m_drawShape))->setRadius(radius);
+			}
+			else if (propName == "FillColor") {
+				ge->m_drawShape->setFillColor(StringUtils::FromString<sf::Color>(it->second));
+			}
+			else if (propName == "OutlineColor") {
+				ge->m_drawShape->setOutlineColor(StringUtils::FromString<sf::Color>(it->second));
+			}
+		}
+	}
+	//Return the initialised game entity.
 	return ge;
 }
 
@@ -80,7 +115,9 @@ GameEntity *StaticEntity::CreateCircularEntity(Editor::EntityType type, int ID,
 std::vector<GameEntity *(*)(Editor::EntityType type, int ID, std::map<std::string, std::string> &props)> 
 factories = {
 	NULL,
-	&StaticEntity::CreateRectangularEntity
+	&StaticEntity::CreateRectangularEntity,
+	&StaticEntity::CreateCircularEntity
+
 };
 
 
