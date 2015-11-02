@@ -33,7 +33,10 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.toolsPointer_rb = new System.Windows.Forms.RadioButton();
@@ -66,7 +69,7 @@
             // 
             this.selectedObject_pg.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.selectedObject_pg.Location = new System.Drawing.Point(2, 66);
-            this.selectedObject_pg.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.selectedObject_pg.Margin = new System.Windows.Forms.Padding(2);
             this.selectedObject_pg.Name = "selectedObject_pg";
             this.selectedObject_pg.Size = new System.Drawing.Size(226, 236);
             this.selectedObject_pg.TabIndex = 0;
@@ -78,18 +81,20 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Location = new System.Drawing.Point(0, 22);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(606, 511);
             this.tabControl1.TabIndex = 1;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.tabControl1.Deselected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Deselected);
             // 
             // tabPage1
             // 
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage1.Size = new System.Drawing.Size(598, 485);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
@@ -110,25 +115,48 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportToolStripMenuItem});
+            this.newTabToolStripMenuItem,
+            this.closeToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.loadToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // exportToolStripMenuItem
+            // newTabToolStripMenuItem
             // 
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.exportToolStripMenuItem.Text = "Export";
-            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+            this.newTabToolStripMenuItem.Name = "newTabToolStripMenuItem";
+            this.newTabToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.newTabToolStripMenuItem.Text = "New Tab";
+            this.newTabToolStripMenuItem.Click += new System.EventHandler(this.newTabToolStripMenuItem_Click);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.closeToolStripMenuItem.Text = "Close Tab";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.loadToolStripMenuItem.Text = "Load";
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
             this.groupBox1.Location = new System.Drawing.Point(608, 22);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(121, 204);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
@@ -147,7 +175,7 @@
             this.tableLayoutPanel1.Controls.Add(this.toolsCircle_rb, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.toolsCustom_rb, 1, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 20);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -166,7 +194,7 @@
             this.toolsPointer_rb.AutoSize = true;
             this.toolsPointer_rb.Checked = true;
             this.toolsPointer_rb.Location = new System.Drawing.Point(2, 2);
-            this.toolsPointer_rb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.toolsPointer_rb.Margin = new System.Windows.Forms.Padding(2);
             this.toolsPointer_rb.Name = "toolsPointer_rb";
             this.toolsPointer_rb.Size = new System.Drawing.Size(50, 40);
             this.toolsPointer_rb.TabIndex = 0;
@@ -185,7 +213,7 @@
             this.toolsRect_rb.AutoSize = true;
             this.toolsRect_rb.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolsRect_rb.Location = new System.Drawing.Point(56, 2);
-            this.toolsRect_rb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.toolsRect_rb.Margin = new System.Windows.Forms.Padding(2);
             this.toolsRect_rb.Name = "toolsRect_rb";
             this.toolsRect_rb.Size = new System.Drawing.Size(50, 40);
             this.toolsRect_rb.TabIndex = 0;
@@ -202,7 +230,7 @@
             this.toolsCircle_rb.Appearance = System.Windows.Forms.Appearance.Button;
             this.toolsCircle_rb.AutoSize = true;
             this.toolsCircle_rb.Location = new System.Drawing.Point(2, 46);
-            this.toolsCircle_rb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.toolsCircle_rb.Margin = new System.Windows.Forms.Padding(2);
             this.toolsCircle_rb.Name = "toolsCircle_rb";
             this.toolsCircle_rb.Size = new System.Drawing.Size(50, 40);
             this.toolsCircle_rb.TabIndex = 0;
@@ -219,7 +247,7 @@
             this.toolsCustom_rb.Appearance = System.Windows.Forms.Appearance.Button;
             this.toolsCustom_rb.AutoSize = true;
             this.toolsCustom_rb.Location = new System.Drawing.Point(56, 46);
-            this.toolsCustom_rb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.toolsCustom_rb.Margin = new System.Windows.Forms.Padding(2);
             this.toolsCustom_rb.Name = "toolsCustom_rb";
             this.toolsCustom_rb.Size = new System.Drawing.Size(50, 40);
             this.toolsCustom_rb.TabIndex = 0;
@@ -232,7 +260,7 @@
             // 
             this.gameEntities_lb.FormattingEnabled = true;
             this.gameEntities_lb.Location = new System.Drawing.Point(733, 22);
-            this.gameEntities_lb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gameEntities_lb.Margin = new System.Windows.Forms.Padding(2);
             this.gameEntities_lb.Name = "gameEntities_lb";
             this.gameEntities_lb.Size = new System.Drawing.Size(108, 160);
             this.gameEntities_lb.TabIndex = 4;
@@ -248,7 +276,7 @@
             this.tableLayoutPanel2.Controls.Add(this.forward_btn, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.back_btn, 1, 1);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(733, 186);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -319,7 +347,7 @@
             // addNewProperty_btn
             // 
             this.addNewProperty_btn.Location = new System.Drawing.Point(7, 17);
-            this.addNewProperty_btn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addNewProperty_btn.Margin = new System.Windows.Forms.Padding(2);
             this.addNewProperty_btn.Name = "addNewProperty_btn";
             this.addNewProperty_btn.Size = new System.Drawing.Size(36, 22);
             this.addNewProperty_btn.TabIndex = 6;
@@ -330,7 +358,7 @@
             // addPropName_txt
             // 
             this.addPropName_txt.Location = new System.Drawing.Point(47, 19);
-            this.addPropName_txt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addPropName_txt.Margin = new System.Windows.Forms.Padding(2);
             this.addPropName_txt.Name = "addPropName_txt";
             this.addPropName_txt.Size = new System.Drawing.Size(81, 20);
             this.addPropName_txt.TabIndex = 7;
@@ -339,7 +367,7 @@
             // 
             this.addPropType_cmb.FormattingEnabled = true;
             this.addPropType_cmb.Location = new System.Drawing.Point(130, 17);
-            this.addPropType_cmb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addPropType_cmb.Margin = new System.Windows.Forms.Padding(2);
             this.addPropType_cmb.Name = "addPropType_cmb";
             this.addPropType_cmb.Size = new System.Drawing.Size(99, 21);
             this.addPropType_cmb.TabIndex = 8;
@@ -355,9 +383,9 @@
             this.groupBox2.Controls.Add(this.addNewProperty_btn);
             this.groupBox2.Controls.Add(this.selectedObject_pg);
             this.groupBox2.Location = new System.Drawing.Point(608, 228);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(232, 305);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
@@ -367,7 +395,7 @@
             // 
             this.editPropType_cmb.FormattingEnabled = true;
             this.editPropType_cmb.Location = new System.Drawing.Point(130, 41);
-            this.editPropType_cmb.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.editPropType_cmb.Margin = new System.Windows.Forms.Padding(2);
             this.editPropType_cmb.Name = "editPropType_cmb";
             this.editPropType_cmb.Size = new System.Drawing.Size(98, 21);
             this.editPropType_cmb.TabIndex = 8;
@@ -375,7 +403,7 @@
             // editPropName_txt
             // 
             this.editPropName_txt.Location = new System.Drawing.Point(47, 43);
-            this.editPropName_txt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.editPropName_txt.Margin = new System.Windows.Forms.Padding(2);
             this.editPropName_txt.Name = "editPropName_txt";
             this.editPropName_txt.Size = new System.Drawing.Size(81, 20);
             this.editPropName_txt.TabIndex = 7;
@@ -384,7 +412,7 @@
             // 
             this.editProperty_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.editProperty_btn.Location = new System.Drawing.Point(7, 41);
-            this.editProperty_btn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.editProperty_btn.Margin = new System.Windows.Forms.Padding(2);
             this.editProperty_btn.Name = "editProperty_btn";
             this.editProperty_btn.Size = new System.Drawing.Size(36, 22);
             this.editProperty_btn.TabIndex = 6;
@@ -395,7 +423,7 @@
             // deleteProp_btn
             // 
             this.deleteProp_btn.Location = new System.Drawing.Point(61, 66);
-            this.deleteProp_btn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.deleteProp_btn.Margin = new System.Windows.Forms.Padding(2);
             this.deleteProp_btn.Name = "deleteProp_btn";
             this.deleteProp_btn.Size = new System.Drawing.Size(67, 20);
             this.deleteProp_btn.TabIndex = 6;
@@ -415,7 +443,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.tabControl1.ResumeLayout(false);
@@ -459,7 +487,10 @@
         private System.Windows.Forms.Button deleteProp_btn;
         private System.Windows.Forms.TextBox editPropName_txt;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newTabToolStripMenuItem;
     }
 }
 

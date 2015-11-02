@@ -13,7 +13,9 @@ namespace Editor
 {
     public partial class Form1 : Form
     {
-        
+        int tabCount = 1;
+        List<List<GameEntity>> gameEntityLists = new List<List<GameEntity>>();
+
         //List of allowed property types used for populating the combo boxes.
         public List<String> AllowedTypes = new List<string>();
         //List that aliases the fully qualified type names to their common aliases.
@@ -43,6 +45,7 @@ namespace Editor
             // collection of items in the gameEntities_lb listbox. If we are going to have 
             // multiple "levels" in each tab, we need to find a way to separate which entity
             // exists in each tab.
+            gameEntityLists.Insert(0, new List<GameEntity>());
 
             //Add a blank type to the allowed types list, then copy over
             // all the values from the alias list.
@@ -452,12 +455,13 @@ namespace Editor
         {
             RefreshAll();
         }
-        //Export the current level to XML.
-        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+
+        // Save Level on current Tab to XML
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             XmlDocument doc = new XmlDocument();
             XmlElement root = doc.CreateElement("Entities");
-            
+
             foreach (GameEntity ge in gameEntities_lb.Items)
             {
                 XmlElement el = ge.GenerateXML(doc);
@@ -465,6 +469,23 @@ namespace Editor
             }
             doc.AppendChild(root);
             doc.Save("Output.xml");
+        }
+
+        // Add new tab page
+        private void newTabToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            gameEntityLists.Insert(tabCount, new List<GameEntity>());
+
+            string title = "TabPage " + (++tabCount).ToString();
+            TabPage myTabPage = new TabPage(title);
+            tabControl1.TabPages.Add(myTabPage);
+
+        }
+
+        // Close current tab page
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tabControl1.TabPages.Remove(tabControl1.SelectedTab);
         }
 
         private void delete_btn_Click(object sender, EventArgs e)
@@ -549,6 +570,32 @@ namespace Editor
 
                 RefreshAll();
             }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetTabPanelEvents(tabControl1.TabPages[tabControl1.SelectedIndex]);
+
+            for (int i = 0; i < gameEntityLists[tabControl1.SelectedIndex].Count; i++)
+            {
+                gameEntities_lb.Items.Add(gameEntityLists[tabControl1.SelectedIndex][i]);
+            }
+
+            gameEntityLists[tabControl1.SelectedIndex].Clear();
+        }
+
+        private void tabControl1_Deselected(object sender, TabControlEventArgs e)
+        {
+            // Previous Tab
+            RemoveMouseEvents(tabControl1.TabPages[tabControl1.SelectedIndex]);
+
+            for (int i = 0; i < gameEntities_lb.Items.Count; i++)
+            {
+                gameEntityLists[tabControl1.SelectedIndex].Add((GameEntity)gameEntities_lb.Items[i]);
+            }
+
+            gameEntities_lb.Items.Clear();
+
         }
     }
 }
