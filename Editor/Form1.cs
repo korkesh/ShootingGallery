@@ -217,6 +217,13 @@ namespace Editor
                 
             }
 
+            // Create a circle.
+            if (toolsCircle_rb.Checked && me.Button == MouseButtons.Left)
+            {
+                ge = GameEntity.CreateCircle(50, me.Location);
+
+            }
+
             if (ge != null)
             {
                 gameEntities_lb.Items.Add(ge);
@@ -246,6 +253,20 @@ namespace Editor
                             g.DrawRectangle(p, bb);
                         }
                         break; }
+                    case EntityType.CIRCLE:
+                        {
+                            Rectangle bb = ge.GetBoundingBox();
+                            Color c = (Color)ge.Props["FillColor"];
+                            using (SolidBrush sb = new SolidBrush((Color)ge.Props["FillColor"]))
+                            {
+                                g.FillEllipse(sb, bb);
+                            }
+                            using (Pen p = new Pen((Color)ge.Props["OutlineColor"]))
+                            {
+                                g.DrawEllipse(p, bb);
+                            }
+                            break;
+                        }
                     default: {
                         Rectangle bb = ge.GetBoundingBox();
                         using (Pen p = new Pen(Color.Black))
@@ -446,6 +467,88 @@ namespace Editor
             doc.Save("Output.xml");
         }
 
-        
+        private void delete_btn_Click(object sender, EventArgs e)
+        {
+            GameEntity ge = selectedObject_pg.SelectedObject as GameEntity;
+
+            gameEntities_lb.Items.Remove(ge);
+            gameEntities_lb.SelectedIndex = gameEntities_lb.Items.Count - 1;
+            selectedObject_pg.SelectedObject = gameEntities_lb.SelectedItem;
+
+            ge = null;
+
+            RefreshAll();
+        }
+
+        private void clone_btn_Click(object sender, EventArgs e)
+        {
+            GameEntity ge = selectedObject_pg.SelectedObject as GameEntity;
+            EntityType entity = ge.Type;
+            Rectangle bb = ge.GetBoundingBox();
+
+
+            GameEntity geCopy = null;
+            if (entity == EntityType.RECT) {
+                geCopy = GameEntity.CreateRectangle(bb.Location.Y , bb.Location.Y, bb.Width, bb.Height);
+            }
+
+            if (entity == EntityType.CIRCLE)
+            {
+                geCopy = GameEntity.CreateCircle(bb.Width, bb.Location);
+            }
+
+            geCopy.SetBoundingBox(bb);
+            geCopy.Props = ge.Props;
+
+            if (geCopy != null)
+            {
+                gameEntities_lb.Items.Add(geCopy);
+                gameEntities_lb.SelectedIndex = gameEntities_lb.Items.Count - 1;
+                selectedObject_pg.SelectedObject = geCopy;
+                RefreshAll();
+            }
+        }
+
+        private void forward_btn_Click(object sender, EventArgs e)
+        {
+            if (gameEntities_lb.SelectedIndex > 0)
+            {
+                GameEntity ge = selectedObject_pg.SelectedObject as GameEntity;
+
+                gameEntities_lb.SelectedIndex = gameEntities_lb.SelectedIndex - 1;
+                GameEntity geSwap = selectedObject_pg.SelectedObject as GameEntity;
+
+                gameEntities_lb.Items[gameEntities_lb.SelectedIndex] = ge;
+                gameEntities_lb.SelectedIndex = gameEntities_lb.SelectedIndex + 1;
+
+                gameEntities_lb.Items[gameEntities_lb.SelectedIndex] = geSwap;
+                gameEntities_lb.SelectedIndex = gameEntities_lb.SelectedIndex - 1;
+
+                selectedObject_pg.SelectedObject = gameEntities_lb.SelectedItem;
+
+                RefreshAll();
+            }
+        }
+
+        private void back_btn_Click(object sender, EventArgs e)
+        {
+            if (gameEntities_lb.SelectedIndex < gameEntities_lb.Items.Count - 1)
+            {
+                GameEntity ge = selectedObject_pg.SelectedObject as GameEntity;
+
+                gameEntities_lb.SelectedIndex = gameEntities_lb.SelectedIndex + 1;
+                GameEntity geSwap = selectedObject_pg.SelectedObject as GameEntity;
+
+                gameEntities_lb.Items[gameEntities_lb.SelectedIndex] = ge;
+                gameEntities_lb.SelectedIndex = gameEntities_lb.SelectedIndex - 1;
+
+                gameEntities_lb.Items[gameEntities_lb.SelectedIndex] = geSwap;
+                gameEntities_lb.SelectedIndex = gameEntities_lb.SelectedIndex + 1;
+
+                selectedObject_pg.SelectedObject = gameEntities_lb.SelectedItem;
+
+                RefreshAll();
+            }
+        }
     }
 }

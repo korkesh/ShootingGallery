@@ -38,6 +38,16 @@ namespace Editor
         public CustomPropertyDictionary Props
         {
             get { return m_props; }
+            set
+            {
+                CustomPropertyDictionary propsCopy = new CustomPropertyDictionary();
+                propsCopy.Name = value.Name;
+                propsCopy.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = value["OutlineColor"] });
+                propsCopy.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = value["FillColor"] });
+                CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] };
+                propsCopy.TryAdd(dim);
+                m_props = propsCopy;
+            }
         }
         //The outline box is an Axis Aligned Bounding box that is slightly
         // bigger than the bounding box. It is used when you draw a box around
@@ -53,6 +63,8 @@ namespace Editor
                     r.Width + (2 * OUTLINE_PADDING), r.Height + (2 * OUTLINE_PADDING)
                 );
             }
+
+            
         }
 
         private const int HALFHANDLESIZE = 3;
@@ -120,6 +132,22 @@ namespace Editor
             ge.Type = EntityType.CIRCLE;
             //MIDTERM: Initialise the rest of the entity, including the properties (see CreateRectangle() for reference).
             // Don't forget you also need to initialise the BoundingBox delegates.
+            ge.Props.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = Color.Magenta });
+            ge.Props.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = Color.Transparent });
+            CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(position.X, position.Y, radius * 2, radius * 2) };
+            ge.Props.TryAdd(dim);
+            //ge.Props.TryAdd(new CustomProperty { Name = "DynamicProperties", Type = typeof(CustomPropertyDictionary), DefaultValue = new CustomPropertyDictionary() });
+
+            ge.SetBoundingBox = new delSetBoundingBox(delegate (Rectangle r)
+            {
+                ge.Props["Dimensions"] = r;
+            });
+
+            ge.GetBoundingBox = new delGetBoundingBox(delegate ()
+            {
+                return ge.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
+            });
+
 
             return ge;
         }
