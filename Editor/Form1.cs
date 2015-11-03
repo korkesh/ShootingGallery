@@ -459,16 +459,108 @@ namespace Editor
         // Save Level on current Tab to XML
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            XmlDocument doc = new XmlDocument();
-            XmlElement root = doc.CreateElement("Entities");
-
-            foreach (GameEntity ge in gameEntities_lb.Items)
+            DialogResult result = saveFileDialog1.ShowDialog(); // Show the dialog.
+            if (result == DialogResult.OK) // Test result.
             {
-                XmlElement el = ge.GenerateXML(doc);
-                root.AppendChild(el);
+                XmlDocument doc = new XmlDocument();
+                XmlElement root = doc.CreateElement("Entities");
+
+                foreach (GameEntity ge in gameEntities_lb.Items)
+                {
+                    XmlElement el = ge.GenerateXML(doc);
+                    root.AppendChild(el);
+                }
+                doc.AppendChild(root);
+                doc.Save(saveFileDialog1.FileName);
             }
-            doc.AppendChild(root);
-            doc.Save("Output.xml");
+        }
+
+        // Load Level from XML
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string fileName = "";
+
+            DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
+            if (result == DialogResult.OK) // Test result.
+            {
+                fileName = openFileDialog1.FileName;
+
+                gameEntities_lb.Items.Clear();
+
+                XmlDocument doc = new XmlDocument();
+                doc.Load(fileName);
+                XmlNode root = doc.FirstChild;
+
+                // Iterate through each child element (which is hopefully a GameEntity
+                // element) and attempt to create a game entity. If the entity is 
+                // created add it to the collection of entities.
+                XmlNode entityEl = root.FirstChild;
+                while (entityEl != null)
+                {
+                    GameEntity ge = loadFromXml(entityEl);
+                    if (ge != null)
+                    {
+                        gameEntities_lb.Items.Add(ge);
+                        gameEntities_lb.SelectedIndex = gameEntities_lb.Items.Count - 1;
+                        selectedObject_pg.SelectedObject = ge;
+                    }
+
+                    //Get next element
+                    entityEl = entityEl.NextSibling;
+                }
+            }
+
+            RefreshAll();
+
+        }
+
+        GameEntity loadFromXml(XmlNode entity)
+        {
+            GameEntity ge = null;
+
+            string type = entity.Attributes["TypeStr"].Value;
+
+            if (type == "RECT")
+            {
+                XmlNode properties = entity.FirstChild;
+                string[] outlineColour = properties.InnerText.Split(' ');
+
+                properties = properties.NextSibling;
+                string[] fillcolour = properties.InnerText.Split(' ');
+
+                properties = properties.NextSibling;
+                string[] dimension = properties.InnerText.Split(' ');
+
+                ge = GameEntity.CreateRectangle(Int32.Parse(dimension[0]), Int32.Parse(dimension[1]), Int32.Parse(dimension[2]), Int32.Parse(dimension[3]));
+                ge.Props["OutlineColor"] =  Color.FromArgb(Int32.Parse(outlineColour[3]), Int32.Parse(outlineColour[0]), Int32.Parse(outlineColour[1]), Int32.Parse(outlineColour[2]));
+                ge.Props["FillColor"] = Color.FromArgb(Int32.Parse(fillcolour[3]), Int32.Parse(fillcolour[0]), Int32.Parse(fillcolour[1]), Int32.Parse(fillcolour[2]));
+
+            }
+            else if (type == "CIRCLE")
+            {
+                XmlNode properties = entity.FirstChild;
+                string[] outlineColour = properties.InnerText.Split(' ');
+
+                properties = properties.NextSibling;
+                string[] fillcolour = properties.InnerText.Split(' ');
+
+                properties = properties.NextSibling;
+                string[] radius = properties.InnerText.Split(' ');
+
+                properties = properties.NextSibling;
+                string[] position = properties.InnerText.Split(',');
+
+                position[0] = position[0].Substring(3);
+                position[1] = position[1].Substring(2, position[1].Length - 3);
+
+                Point pt = new Point(Int32.Parse(position[0]), Int32.Parse(position[1]));
+
+                ge = GameEntity.CreateCircle(Int32.Parse(radius[0]), pt);
+                ge.Props["OutlineColor"] = Color.FromArgb(Int32.Parse(outlineColour[3]), Int32.Parse(outlineColour[0]), Int32.Parse(outlineColour[1]), Int32.Parse(outlineColour[2]));
+                ge.Props["FillColor"] = Color.FromArgb(Int32.Parse(fillcolour[3]), Int32.Parse(fillcolour[0]), Int32.Parse(fillcolour[1]), Int32.Parse(fillcolour[2]));
+            }
+
+            return ge;
         }
 
         // Add new tab page
