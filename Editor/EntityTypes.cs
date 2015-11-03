@@ -21,7 +21,8 @@ namespace Editor
         NONE = 0,
         RECT = 1,
         CIRCLE = 2,
-        OTHER = 3,
+        SPRITE = 3,
+        OTHER = 4,
         COUNT
     };
 #if CS

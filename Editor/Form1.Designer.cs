@@ -59,6 +59,7 @@
             this.deleteProp_btn = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.toolsSprite_rb = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -128,28 +129,28 @@
             // newTabToolStripMenuItem
             // 
             this.newTabToolStripMenuItem.Name = "newTabToolStripMenuItem";
-            this.newTabToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newTabToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.newTabToolStripMenuItem.Text = "New Tab";
             this.newTabToolStripMenuItem.Click += new System.EventHandler(this.newTabToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.closeToolStripMenuItem.Text = "Close Tab";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
@@ -177,6 +178,7 @@
             this.tableLayoutPanel1.Controls.Add(this.toolsRect_rb, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.toolsCircle_rb, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.toolsCustom_rb, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.toolsSprite_rb, 0, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 20);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -438,6 +440,22 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // toolsSprite_rb
+            // 
+            this.toolsSprite_rb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolsSprite_rb.Appearance = System.Windows.Forms.Appearance.Button;
+            this.toolsSprite_rb.AutoSize = true;
+            this.toolsSprite_rb.Location = new System.Drawing.Point(2, 90);
+            this.toolsSprite_rb.Margin = new System.Windows.Forms.Padding(2);
+            this.toolsSprite_rb.Name = "toolsSprite_rb";
+            this.toolsSprite_rb.Size = new System.Drawing.Size(50, 40);
+            this.toolsSprite_rb.TabIndex = 1;
+            this.toolsSprite_rb.Text = "Sprite";
+            this.toolsSprite_rb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolsSprite_rb.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -500,6 +518,7 @@
         private System.Windows.Forms.ToolStripMenuItem newTabToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.RadioButton toolsSprite_rb;
     }
 }
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+
 
 namespace Editor
 {
@@ -220,6 +223,12 @@ namespace Editor
                 
             }
 
+            if (toolsSprite_rb.Checked && me.Button == MouseButtons.Left)
+            {
+                ge = GameEntity.CreateSprite(me.X, me.Y, 100, 100);
+                
+            }
+
             // Create a circle.
             if (toolsCircle_rb.Checked && me.Button == MouseButtons.Left)
             {
@@ -234,6 +243,7 @@ namespace Editor
                 selectedObject_pg.SelectedObject = ge;
                 RefreshAll();
             }
+            
         }
         //Custom paint method for displaying the objects. 
         private void TabPanel_Paint(object sender, PaintEventArgs pe)
@@ -267,6 +277,18 @@ namespace Editor
                             using (Pen p = new Pen((Color)ge.Props["OutlineColor"]))
                             {
                                 g.DrawEllipse(p, bb);
+                            }
+                            break;
+                        }
+                    case EntityType.SPRITE:
+                        {
+                            string s = "..\\..\\..\\Resources\\Assets\\" + (string)ge.Props["SpriteName"];
+                            Image im = Image.FromFile(s);
+                            Rectangle bb = ge.GetBoundingBox();
+                            using (Pen p = new Pen((Color)ge.Props["OutlineColor"]))
+                            {
+                                g.DrawRectangle(p, bb);
+                                g.DrawImage(im, bb);
                             }
                             break;
                         }
@@ -344,6 +366,7 @@ namespace Editor
             RefreshAll();
         }
 
+        
         //Use at your own risk to rename a property.
         private void editProperty_btn_Click(object sender, EventArgs e)
         {

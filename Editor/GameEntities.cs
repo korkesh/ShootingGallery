@@ -32,6 +32,8 @@ namespace Editor
         public delSetBoundingBox SetBoundingBox;
         public delegate Rectangle delGetBoundingBox();
         public delGetBoundingBox GetBoundingBox;
+        public delGetBoundingBox GetName;
+
 
         //The list of properties. Customizable for each entity.
         private CustomPropertyDictionary m_props = new CustomPropertyDictionary();
@@ -58,6 +60,12 @@ namespace Editor
 
                     propsCopy.TryAdd(rad);
                     propsCopy.TryAdd(pos);
+                }
+                else if (Type == EntityType.SPRITE)
+                {
+                    CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] };
+                    CustomProperty nam = new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = value["SpriteName"] };
+                    propsCopy.TryAdd(dim);
                 }
                 m_props = propsCopy;
             }
@@ -136,6 +144,31 @@ namespace Editor
             });
 
                
+            return ge;
+        }
+
+        public static GameEntity CreateSprite(int x, int y, int w, int h)
+        {
+            GameEntity ge = new GameEntity();
+            ge.Type = EntityType.SPRITE;
+            ge.Props.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
+            ge.Props.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = Color.Transparent });
+            CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x, y, w, h) };
+            ge.Props.TryAdd(dim);
+           
+
+            ge.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
+            {
+                ge.Props["Dimensions"] = r;
+            });
+
+            ge.GetBoundingBox = new delGetBoundingBox(delegate()
+            {
+                return ge.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
+            });
+
+           
+        
             return ge;
         }
 
