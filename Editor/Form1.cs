@@ -474,7 +474,7 @@ namespace Editor
         // Add new tab page
         private void newTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            gameEntityLists.Insert(tabCount, new List<GameEntity>());
+            gameEntityLists.Insert(tabControl1.TabCount, new List<GameEntity>());
 
             string title = "TabPage " + (++tabCount).ToString();
             TabPage myTabPage = new TabPage(title);
@@ -485,6 +485,9 @@ namespace Editor
         // Close current tab page
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            RemoveMouseEvents(tabControl1.TabPages[tabControl1.SelectedIndex]);
+            gameEntityLists.RemoveAt(tabControl1.SelectedIndex);
+
             tabControl1.TabPages.Remove(tabControl1.SelectedTab);
         }
 
@@ -586,12 +589,16 @@ namespace Editor
 
         private void tabControl1_Deselected(object sender, TabControlEventArgs e)
         {
-            // Previous Tab
-            RemoveMouseEvents(tabControl1.TabPages[tabControl1.SelectedIndex]);
-
-            for (int i = 0; i < gameEntities_lb.Items.Count; i++)
+            if (tabControl1.SelectedIndex >= 0)
             {
-                gameEntityLists[tabControl1.SelectedIndex].Add((GameEntity)gameEntities_lb.Items[i]);
+                // Previous Tab
+                RemoveMouseEvents(tabControl1.TabPages[tabControl1.SelectedIndex]);
+
+                for (int i = 0; i < gameEntities_lb.Items.Count; i++)
+                {
+                    gameEntityLists[tabControl1.SelectedIndex].Add((GameEntity)gameEntities_lb.Items[i]);
+                }
+
             }
 
             gameEntities_lb.Items.Clear();
