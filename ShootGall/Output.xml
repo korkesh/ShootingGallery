@@ -1,24 +1,7 @@
 <Entities>
-  <GameEntity Type="1" TypeStr="RECT" ID="0">
-    <OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
-    <FillColor TypeStr="System.Drawing.Color">255 0 255 255</FillColor>
-    <Dimensions TypeStr="System.Drawing.Rectangle">110 126 100 100</Dimensions>
-  </GameEntity>
-  <GameEntity Type="1" TypeStr="RECT" ID="1">
-    <OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
-    <FillColor TypeStr="System.Drawing.Color">255 165 0 255</FillColor>
-    <Dimensions TypeStr="System.Drawing.Rectangle">438 275 100 100</Dimensions>
-  </GameEntity>
-  <GameEntity Type="2" TypeStr="CIRCLE" ID="2">
-    <OutlineColor TypeStr="System.Drawing.Color">255 0 255 255</OutlineColor>
-    <FillColor TypeStr="System.Drawing.Color">128 0 0 255</FillColor>
-    <Radius TypeStr="System.Int32">50</Radius>
-    <Position TypeStr="System.Drawing.Point">{X=393,Y=116}</Position>
-  </GameEntity>
-  <GameEntity Type="2" TypeStr="CIRCLE" ID="3">
-    <OutlineColor TypeStr="System.Drawing.Color">255 0 255 255</OutlineColor>
-    <FillColor TypeStr="System.Drawing.Color">102 205 170 255</FillColor>
-    <Radius TypeStr="System.Int32">50</Radius>
-    <Position TypeStr="System.Drawing.Point">{X=194,Y=320}</Position>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="0">
+    <SpriteName TypeStr="System.String">water2.png</SpriteName>
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Dimensions TypeStr="System.Drawing.Rectangle">278 227 50 100</Dimensions>
   </GameEntity>
 </Entities>

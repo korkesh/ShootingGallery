@@ -22,7 +22,10 @@ namespace Editor
         RECT = 1,
         CIRCLE = 2,
         SPRITE = 3,
-        OTHER = 4,
+        LINETRACK = 4,
+        CONVEYBELT = 5,
+        LINESIN = 6,
+        OTHER = 7,
         COUNT
     };
 #if CS

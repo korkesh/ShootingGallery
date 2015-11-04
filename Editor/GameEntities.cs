@@ -213,6 +213,87 @@ namespace Editor
             return ge;
         }
 
+        public static GameEntity CreateLineTrack(int x, int y, int w, int h)
+        {
+            GameEntity ge = new GameEntity();
+            ge.Type = EntityType.LINETRACK;
+            ge.Props.TryAdd(new CustomProperty { Name = "DispHeight", Type = typeof(int), DefaultValue = 10 });
+            ge.Props.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = 50 });
+            ge.Props.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = 50 });
+            ge.Props.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = 1 });
+            ge.Props.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
+            CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x, y, w, h) };
+            ge.Props.TryAdd(dim);
+
+            ge.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
+            {
+                ge.Props["Dimensions"] = r;
+            });
+
+            ge.GetBoundingBox = new delGetBoundingBox(delegate()
+            {
+                return ge.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
+            });
+
+
+            return ge;
+        }
+
+        public static GameEntity CreateConveyBelt(int x, int y, int w, int h)
+        {
+            GameEntity ge = new GameEntity();
+            ge.Type = EntityType.CONVEYBELT;
+            ge.Props.TryAdd(new CustomProperty { Name = "DispHieght", Type = typeof(int), DefaultValue = 1 });
+            ge.Props.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = 50 });
+            ge.Props.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = 50 });
+            ge.Props.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = 1 });
+            ge.Props.TryAdd(new CustomProperty { Name = "Clockwise", Type = typeof(bool), DefaultValue = true });
+            ge.Props.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
+            CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x, y, w, h) };
+            ge.Props.TryAdd(dim);
+
+            ge.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
+            {
+                ge.Props["Dimensions"] = r;
+            });
+
+            ge.GetBoundingBox = new delGetBoundingBox(delegate()
+            {
+                return ge.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
+            });
+
+
+            return ge;
+        }
+
+        public static GameEntity CreateLineSin(int x, int y, int w, int h)
+        {
+            GameEntity ge = new GameEntity();
+            ge.Type = EntityType.LINESIN;
+            ge.Props.TryAdd(new CustomProperty { Name = "a", Type = typeof(int), DefaultValue = 1 });
+            ge.Props.TryAdd(new CustomProperty { Name = "b", Type = typeof(int), DefaultValue = 1 });
+            ge.Props.TryAdd(new CustomProperty { Name = "c", Type = typeof(int), DefaultValue = 0 });
+            ge.Props.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = 20 });
+            ge.Props.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = 20 });
+            ge.Props.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = 1 });
+            ge.Props.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
+            CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x, y, w, h) };
+            ge.Props.TryAdd(dim);
+
+            ge.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
+            {
+                ge.Props["Dimensions"] = r;
+            });
+
+            ge.GetBoundingBox = new delGetBoundingBox(delegate()
+            {
+                return ge.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
+            });
+
+
+            return ge;
+        }
+
         //Output this game entity as an XMLElement. The Entity is the element and will contain
         // each property as a sub-element. In addition, the entity will contain attributes for the
         // Type (as an int), Type (as a string), and ID.

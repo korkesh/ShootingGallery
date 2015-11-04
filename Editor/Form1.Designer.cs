@@ -43,6 +43,8 @@
             this.toolsRect_rb = new System.Windows.Forms.RadioButton();
             this.toolsCircle_rb = new System.Windows.Forms.RadioButton();
             this.toolsCustom_rb = new System.Windows.Forms.RadioButton();
+            this.toolsSprite_rb = new System.Windows.Forms.RadioButton();
+            this.toolsLineTrack_rb = new System.Windows.Forms.RadioButton();
             this.gameEntities_lb = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.delete_btn = new System.Windows.Forms.Button();
@@ -59,7 +61,8 @@
             this.deleteProp_btn = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.toolsSprite_rb = new System.Windows.Forms.RadioButton();
+            this.toolsConveyBelt_rb = new System.Windows.Forms.RadioButton();
+            this.toolsLineSin_rb = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -174,11 +177,14 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.toolsLineSin_rb, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.toolsConveyBelt_rb, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.toolsPointer_rb, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.toolsRect_rb, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.toolsCircle_rb, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.toolsCustom_rb, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.toolsSprite_rb, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.toolsLineTrack_rb, 1, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 20);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -260,6 +266,38 @@
             this.toolsCustom_rb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolsCustom_rb.UseVisualStyleBackColor = true;
             this.toolsCustom_rb.CheckedChanged += new System.EventHandler(this.ToolRadioButtons_CheckedChanged);
+            // 
+            // toolsSprite_rb
+            // 
+            this.toolsSprite_rb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolsSprite_rb.Appearance = System.Windows.Forms.Appearance.Button;
+            this.toolsSprite_rb.AutoSize = true;
+            this.toolsSprite_rb.Location = new System.Drawing.Point(2, 90);
+            this.toolsSprite_rb.Margin = new System.Windows.Forms.Padding(2);
+            this.toolsSprite_rb.Name = "toolsSprite_rb";
+            this.toolsSprite_rb.Size = new System.Drawing.Size(50, 40);
+            this.toolsSprite_rb.TabIndex = 1;
+            this.toolsSprite_rb.Text = "Sprite";
+            this.toolsSprite_rb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolsSprite_rb.UseVisualStyleBackColor = true;
+            // 
+            // toolsLineTrack_rb
+            // 
+            this.toolsLineTrack_rb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolsLineTrack_rb.Appearance = System.Windows.Forms.Appearance.Button;
+            this.toolsLineTrack_rb.AutoSize = true;
+            this.toolsLineTrack_rb.Location = new System.Drawing.Point(56, 90);
+            this.toolsLineTrack_rb.Margin = new System.Windows.Forms.Padding(2);
+            this.toolsLineTrack_rb.Name = "toolsLineTrack_rb";
+            this.toolsLineTrack_rb.Size = new System.Drawing.Size(50, 40);
+            this.toolsLineTrack_rb.TabIndex = 2;
+            this.toolsLineTrack_rb.Text = "LineTrack";
+            this.toolsLineTrack_rb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolsLineTrack_rb.UseVisualStyleBackColor = true;
             // 
             // gameEntities_lb
             // 
@@ -440,21 +478,37 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // toolsSprite_rb
+            // toolsConveyBelt_rb
             // 
-            this.toolsSprite_rb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.toolsConveyBelt_rb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.toolsSprite_rb.Appearance = System.Windows.Forms.Appearance.Button;
-            this.toolsSprite_rb.AutoSize = true;
-            this.toolsSprite_rb.Location = new System.Drawing.Point(2, 90);
-            this.toolsSprite_rb.Margin = new System.Windows.Forms.Padding(2);
-            this.toolsSprite_rb.Name = "toolsSprite_rb";
-            this.toolsSprite_rb.Size = new System.Drawing.Size(50, 40);
-            this.toolsSprite_rb.TabIndex = 1;
-            this.toolsSprite_rb.Text = "Sprite";
-            this.toolsSprite_rb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.toolsSprite_rb.UseVisualStyleBackColor = true;
+            this.toolsConveyBelt_rb.Appearance = System.Windows.Forms.Appearance.Button;
+            this.toolsConveyBelt_rb.AutoSize = true;
+            this.toolsConveyBelt_rb.Location = new System.Drawing.Point(2, 134);
+            this.toolsConveyBelt_rb.Margin = new System.Windows.Forms.Padding(2);
+            this.toolsConveyBelt_rb.Name = "toolsConveyBelt_rb";
+            this.toolsConveyBelt_rb.Size = new System.Drawing.Size(50, 43);
+            this.toolsConveyBelt_rb.TabIndex = 3;
+            this.toolsConveyBelt_rb.Text = "ConveyBelt";
+            this.toolsConveyBelt_rb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolsConveyBelt_rb.UseVisualStyleBackColor = true;
+            // 
+            // toolsLineSin_rb
+            // 
+            this.toolsLineSin_rb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolsLineSin_rb.Appearance = System.Windows.Forms.Appearance.Button;
+            this.toolsLineSin_rb.AutoSize = true;
+            this.toolsLineSin_rb.Location = new System.Drawing.Point(56, 134);
+            this.toolsLineSin_rb.Margin = new System.Windows.Forms.Padding(2);
+            this.toolsLineSin_rb.Name = "toolsLineSin_rb";
+            this.toolsLineSin_rb.Size = new System.Drawing.Size(50, 43);
+            this.toolsLineSin_rb.TabIndex = 4;
+            this.toolsLineSin_rb.Text = "LineSin";
+            this.toolsLineSin_rb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.toolsLineSin_rb.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -519,6 +573,9 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.RadioButton toolsSprite_rb;
+        private System.Windows.Forms.RadioButton toolsLineTrack_rb;
+        private System.Windows.Forms.RadioButton toolsConveyBelt_rb;
+        private System.Windows.Forms.RadioButton toolsLineSin_rb;
     }
 }
 

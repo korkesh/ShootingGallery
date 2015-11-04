@@ -223,6 +223,7 @@ namespace Editor
                 
             }
 
+            //create sprite
             if (toolsSprite_rb.Checked && me.Button == MouseButtons.Left)
             {
                 ge = GameEntity.CreateSprite(me.X, me.Y, 100, 100);
@@ -233,6 +234,26 @@ namespace Editor
             if (toolsCircle_rb.Checked && me.Button == MouseButtons.Left)
             {
                 ge = GameEntity.CreateCircle(50, me.Location);
+
+            }
+            //create line track
+            if (toolsLineTrack_rb.Checked && me.Button == MouseButtons.Left)
+            {
+                ge = GameEntity.CreateLineTrack(me.X, me.Y, 100, 20);
+
+            }
+
+            //create convey belt
+            if (toolsConveyBelt_rb.Checked && me.Button == MouseButtons.Left)
+            {
+                ge = GameEntity.CreateConveyBelt(me.X, me.Y, 100, 20);
+
+            }
+
+            //create sinline
+            if (toolsLineSin_rb.Checked && me.Button == MouseButtons.Left)
+            {
+                ge = GameEntity.CreateLineSin(me.X, me.Y, 100, 20);
 
             }
 
@@ -289,6 +310,86 @@ namespace Editor
                             {
                                 g.DrawRectangle(p, bb);
                                 g.DrawImage(im, bb);
+                            }
+                            break;
+                        }
+                    case EntityType.LINETRACK:
+                        {
+                            string s = "..\\..\\..\\Resources\\Assets\\" + (string)ge.Props["SpriteName"];
+                            Image im = Image.FromFile(s);
+                            Rectangle bb = ge.GetBoundingBox();
+                            Pen sb = new Pen(Color.Gray);
+                            sb.Width = 3;
+                            int nx = bb.X + bb.Width;
+                            int ny = bb.Y + (bb.Height / 2);
+                            g.DrawLine(sb, bb.X, ny, nx, ny);
+                            int howmany = bb.Width / (int)ge.Props["PicWidth"];
+                            for (int iter = 0; iter < howmany; iter++ )
+                            {
+                                if(iter%2 == 0)
+                                {
+                                    g.DrawImage(im, new Rectangle((bb.X + iter * (int)ge.Props["PicWidth"]), (ny - (int)ge.Props["PicHeight"]), (int)ge.Props["PicWidth"], (int)ge.Props["PicHeight"]));
+                                }
+                                else
+                                {
+                                    g.DrawImage(im, new Rectangle((bb.X + iter * (int)ge.Props["PicWidth"]), ((ny - (int)ge.Props["PicHeight"]) + (int)ge.Props["DispHeight"]), (int)ge.Props["PicWidth"], (int)ge.Props["PicHeight"]));
+                                }
+                                
+                            }
+                                break;
+                        }
+                    case EntityType.CONVEYBELT:
+                        {
+                            string s = "..\\..\\..\\Resources\\Assets\\" + (string)ge.Props["SpriteName"];
+                            Image im = Image.FromFile(s);
+                            Rectangle bb = ge.GetBoundingBox();
+                            Pen sb = new Pen(Color.Black);
+                            sb.Width = 3;
+                            int arcBwidth = bb.Width / 8;
+                            int lineStart = arcBwidth / 2;
+                            g.DrawLine(sb, bb.X+lineStart-1, bb.Y, bb.X+bb.Width-lineStart+1, bb.Y);
+                            g.DrawLine(sb, bb.X + lineStart - 1, bb.Y + bb.Height, bb.X + bb.Width - lineStart + 1, bb.Y + bb.Height);
+                            g.DrawArc(sb, new Rectangle(bb.X,bb.Y,arcBwidth,bb.Height), 90.0f, 180.0f);
+                            g.DrawArc(sb, new Rectangle((bb.X + (bb.Width-arcBwidth)), bb.Y, arcBwidth, bb.Height), -90.0f, 180.0f);
+                            int howmanyW = bb.Width / (int)ge.Props["PicWidth"];
+                            int howmanyH = bb.Height/ (int)ge.Props["PicWidth"];
+                            for (int iter = 0; iter < howmanyW; iter++)
+                            {
+                                g.DrawImage(im, new Rectangle((bb.X + iter * (int)ge.Props["PicWidth"]), bb.Y - (int)ge.Props["PicHeight"], (int)ge.Props["PicWidth"], (int)ge.Props["PicHeight"]));
+                            }
+                            im.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                            for (int iter = 0; iter < howmanyW; iter++)
+                            {
+                                
+                                g.DrawImage(im, new Rectangle((bb.X + iter * (int)ge.Props["PicWidth"]), bb.Y + bb.Height, (int)ge.Props["PicWidth"], (int)ge.Props["PicHeight"]));
+                            }
+                            im.RotateFlip(RotateFlipType.Rotate180FlipNone);
+
+
+                            break;
+                        }
+                    case EntityType.LINESIN:
+                        {
+                            string s = "..\\..\\..\\Resources\\Assets\\" + (string)ge.Props["SpriteName"];
+                            Image im = Image.FromFile(s);
+                            Rectangle bb = ge.GetBoundingBox();
+                            Pen sb = new Pen(Color.Gray);
+                            sb.Width = 3;
+                            int nx = bb.X + bb.Width;
+                            int ny = bb.Y + (bb.Height / 2);
+                            g.DrawLine(sb, bb.X, ny, nx, ny);
+                            int howmany = bb.Width / (int)ge.Props["PicWidth"];
+                            int myX;
+                            int myY;
+                            double crazyAmp = (2 * Math.PI / (bb.Width * 1 / (int)(int)ge.Props["b"]));
+                            
+                            for (int iter = 0; iter < howmany; iter++)
+                            {
+                                myX = (int)ge.Props["PicWidth"] * iter;
+                                double sin = Math.Sin(crazyAmp * (double)myX);
+                                double complete = (int)ge.Props["a"]*sin*(bb.Height/2);
+                                myY = (int)(complete + (int)ge.Props["c"]);
+                                g.DrawImage(im, new Rectangle((bb.X + myX), (bb.Y-myY), (int)ge.Props["PicWidth"], (int)ge.Props["PicHeight"]));
                             }
                             break;
                         }
