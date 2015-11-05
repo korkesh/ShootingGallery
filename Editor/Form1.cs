@@ -683,6 +683,115 @@ namespace Editor
                 ge.Props["OutlineColor"] = Color.FromArgb(Int32.Parse(outlineColour[3]), Int32.Parse(outlineColour[0]), Int32.Parse(outlineColour[1]), Int32.Parse(outlineColour[2]));
                 ge.Props["FillColor"] = Color.FromArgb(Int32.Parse(fillcolour[3]), Int32.Parse(fillcolour[0]), Int32.Parse(fillcolour[1]), Int32.Parse(fillcolour[2]));
             }
+            else if (type == "SPRITE")
+            {
+                XmlNode properties = entity.FirstChild;
+                string spriteName = properties.InnerText;
+
+                properties = properties.NextSibling;
+                string[] outlineColour = properties.InnerText.Split(' ');
+
+                properties = properties.NextSibling;
+                string[] dimension = properties.InnerText.Split(' ');
+
+                ge = GameEntity.CreateSprite(Int32.Parse(dimension[0]), Int32.Parse(dimension[1]), Int32.Parse(dimension[2]), Int32.Parse(dimension[3]));
+                ge.Props["SpriteName"] = spriteName;
+                ge.Props["OutlineColor"] = Color.FromArgb(Int32.Parse(outlineColour[3]), Int32.Parse(outlineColour[0]), Int32.Parse(outlineColour[1]), Int32.Parse(outlineColour[2]));
+
+            }
+            else if (type == "LINETRACK")
+            {
+                XmlNode properties = entity.FirstChild;
+                int dispHeight = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                int picWidth = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                int picHeight = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                int speed = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                string spriteName = properties.InnerText;
+
+                properties = properties.NextSibling;
+                string[] dimension = properties.InnerText.Split(' ');
+
+                ge = GameEntity.CreateLineTrack(Int32.Parse(dimension[0]), Int32.Parse(dimension[1]), Int32.Parse(dimension[2]), Int32.Parse(dimension[3]));
+                ge.Props["DispHeight"] = dispHeight;
+                ge.Props["PicWidth"] = picWidth;
+                ge.Props["PicHeight"] = picHeight;
+                ge.Props["Speed"] = speed;
+                ge.Props["SpriteName"] = spriteName;
+            }
+            else if (type == "CONVEYBELT")
+            {
+                XmlNode properties = entity.FirstChild;
+                int dispHeight = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                int picWidth = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                int picHeight = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                int speed = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                bool clockwise = Boolean.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                string spriteName = properties.InnerText;
+
+                properties = properties.NextSibling;
+                string[] dimension = properties.InnerText.Split(' ');
+
+                ge = GameEntity.CreateConveyBelt(Int32.Parse(dimension[0]), Int32.Parse(dimension[1]), Int32.Parse(dimension[2]), Int32.Parse(dimension[3]));
+                ge.Props["DispHeight"] = dispHeight;
+                ge.Props["PicWidth"] = picWidth;
+                ge.Props["PicHeight"] = picHeight;
+                ge.Props["Speed"] = speed;
+                ge.Props["Clockwise"] = clockwise;
+                ge.Props["SpriteName"] = spriteName;
+            }
+            else if (type == "LINESIN")
+            {
+                XmlNode properties = entity.FirstChild;
+                int a = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                int b = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                int c = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                int picWidth = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                int picHeight = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                int speed = Int32.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                string spriteName = properties.InnerText;
+
+                properties = properties.NextSibling;
+                string[] dimension = properties.InnerText.Split(' ');
+
+                ge = GameEntity.CreateLineSin(Int32.Parse(dimension[0]), Int32.Parse(dimension[1]), Int32.Parse(dimension[2]), Int32.Parse(dimension[3]));
+                ge.Props["a"] = a;
+                ge.Props["b"] = b;
+                ge.Props["c"] = c;
+                ge.Props["PicWidth"] = picWidth;
+                ge.Props["PicHeight"] = picHeight;
+                ge.Props["Speed"] = speed;
+                ge.Props["SpriteName"] = spriteName;
+            }
 
             return ge;
         }
@@ -735,6 +844,26 @@ namespace Editor
             if (entity == EntityType.CIRCLE)
             {
                 geCopy = GameEntity.CreateCircle(bb.Width, bb.Location);
+            }
+
+            if (entity == EntityType.SPRITE)
+            {
+                geCopy = GameEntity.CreateSprite(bb.Location.Y, bb.Location.Y, bb.Width, bb.Height);
+            }
+
+            if (entity == EntityType.LINETRACK)
+            {
+                geCopy = GameEntity.CreateLineTrack(bb.Location.Y, bb.Location.Y, bb.Width, bb.Height);
+            }
+
+            if (entity == EntityType.CONVEYBELT)
+            {
+                geCopy = GameEntity.CreateConveyBelt(bb.Location.Y, bb.Location.Y, bb.Width, bb.Height);
+            }
+
+            if (entity == EntityType.LINESIN)
+            {
+                geCopy = GameEntity.CreateLineSin(bb.Location.Y, bb.Location.Y, bb.Width, bb.Height);
             }
 
             geCopy.SetBoundingBox(bb);

@@ -44,28 +44,59 @@ namespace Editor
             {
                 CustomPropertyDictionary propsCopy = new CustomPropertyDictionary();
                 propsCopy.Name = value.Name;
-                propsCopy.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = value["OutlineColor"] });
-                propsCopy.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = value["FillColor"] });
 
                 if (Type == EntityType.RECT)
                 {
-                    CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] };
-                    propsCopy.TryAdd(dim);
+                    propsCopy.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = value["OutlineColor"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = value["FillColor"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
 
                 }
                 else if (Type == EntityType.CIRCLE)
                 {
-                    CustomProperty rad = new CustomProperty { Name = "Radius", Type = typeof(int), DefaultValue = value["Radius"] };
-                    CustomProperty pos = new CustomProperty { Name = "Position", Type = typeof(Point), DefaultValue = value["Position"] };
-
-                    propsCopy.TryAdd(rad);
-                    propsCopy.TryAdd(pos);
+                    propsCopy.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = value["OutlineColor"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = value["FillColor"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Radius", Type = typeof(int), DefaultValue = value["Radius"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Position", Type = typeof(Point), DefaultValue = value["Position"] });
                 }
                 else if (Type == EntityType.SPRITE)
                 {
-                    CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] };
-                    CustomProperty nam = new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = value["SpriteName"] };
-                    propsCopy.TryAdd(dim);
+                    propsCopy.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = value["OutlineColor"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = value["SpriteName"] });
+                }
+                else if (Type == EntityType.LINETRACK)
+                {
+                    propsCopy.TryAdd(new CustomProperty { Name = "DispHeight", Type = typeof(int), DefaultValue = 10 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = 50 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = 50 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = 1 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = value["SpriteName"] });
+                }
+                else if (Type == EntityType.CONVEYBELT)
+                {
+                    propsCopy.TryAdd(new CustomProperty { Name = "DispHieght", Type = typeof(int), DefaultValue = 1 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = 50 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = 50 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = 1 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Clockwise", Type = typeof(bool), DefaultValue = true });
+                    propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
+
+                } 
+                else if (Type == EntityType.LINESIN)
+                {
+                    propsCopy.TryAdd(new CustomProperty { Name = "a", Type = typeof(int), DefaultValue = 1 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "b", Type = typeof(int), DefaultValue = 1 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "c", Type = typeof(int), DefaultValue = 0 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = 20 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = 20 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = 1 });
+                    propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
+
                 }
                 m_props = propsCopy;
             }
@@ -184,7 +215,6 @@ namespace Editor
             CustomProperty pos = new CustomProperty { Name = "Position", Type = typeof(Point), DefaultValue = new Point(position.X, position.Y) };
             ge.Props.TryAdd(rad);
             ge.Props.TryAdd(pos);
-            //ge.Props.TryAdd(new CustomProperty { Name = "DynamicProperties", Type = typeof(CustomPropertyDictionary), DefaultValue = new CustomPropertyDictionary() });
 
             ge.SetBoundingBox = new delSetBoundingBox(delegate (Rectangle r)
             {
