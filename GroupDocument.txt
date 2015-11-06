@@ -14,8 +14,8 @@ Requirement Descriptions:
 	
 4.	
 
-5.	Sprites are implemented and shown in the editor. Sprites can be flipped/Mirrored but will only show in game. Forgot they had to rotate untill too late so rotate is not         implemented.
+5.	Sprites are implemented and shown in the editor. Sprites can be flipped/Mirrored but will only show in game. 
 
-6.	Can implement LineTrack(straight line), ConveyBelt(conveyor belt) and LineSin(waves appear in sin wave with the period of the width if b is 1). Sprites are shown in         Editor.
+6.	Can implement LineTrack(straight line), ConveyBelt(conveyor belt) and LineSin(waves appear in sin wave with the period of the width if b is 1). Sprites are shown in           Editor. All have the property for the dimension, picture width, picture height and speed. Line sin also has a for amplitude, b for period, c for displacement.
 
-7.	Circle has been implemented and can draw on the screen.Sprites are drawn on screen and can be flipped/Mirrored.Line track has sprites going up and down. LineSin has         sprites moving based on the sin wave.
+7.	Circle has been implemented and can draw on the screen.Sprites are drawn on screen and can be flipped/Mirrored.Line track has sprites going up and down. LineSin has            sprites moving based on the sin wave.Circle, Rectangle and Sprite are all static entities. While LineTrack,LineSin and ConveyBelt are all Dynamic and have an update           specific to each.The update for the static entities is only used for the curtain.
