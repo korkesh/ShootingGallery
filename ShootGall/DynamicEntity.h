@@ -26,22 +26,23 @@ public:
 	bool up;
 	//initial starting spot for y value
 	int startingY;
-	
+	std::vector<sf::Shape*> m_drawShapes;
 	float timeElpased;
 
 protected:
 
 	//Don't call me from anywhere but the factory methods!
 	DynamicEntity(int id);
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 private:
 	//The entity that will be rendered to the screen. 
-	std::vector<sf::Shape*> m_drawShapes;
+	
 	
 
 
 	//Draw method inherited from sf::Drawable.
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	
 };
 
 #endif

@@ -13,6 +13,7 @@
 #include "StaticEntity.h"
 #include "DynamicEntity.h"
 #include "DynamicLineSine.h"
+#include "ConveyerBeltEntity.h"
 #define _USE_MATH_DEFINES 
 #include <cmath>
 
@@ -291,6 +292,184 @@ GameEntity *DynamicEntity::CreateLineTrackEntity(Editor::EntityType type, int ID
 	return ge;
 }
 
+GameEntity *ConveyerBeltEntity::CreateConveyerBeltEntity(Editor::EntityType type, int ID,
+	std::map<std::string, std::string> &props)
+{
+	ConveyerBeltEntity *ge = new ConveyerBeltEntity(ID);
+
+	ge->type = 5;
+
+	std::string name;
+	bool clockwise;
+
+	//MIDTERM: You got this right?
+	//ge->m_drawShape->setOutlineThickness(0.0f);
+	//Check that all properties are present, convert them from strings to the required data type,
+	// and set up the object. Note that ideally the order in which the properties are processed should
+	// not matter.
+	bool propMissing = false;
+
+	for (std::size_t i = 0; i < Editor::EntityProperties[(int)type].size(); i++)
+	{
+		std::string propName = Editor::EntityProperties[(int)type][i];
+		std::map<std::string, std::string>::iterator it = props.find(propName);
+		//Currently we fail as soon as we miss a single value - if we have optional parameters we will
+		// need to make this logic a bit more complex.
+		if (it == props.end()) {
+			propMissing = true;
+			delete ge;
+			return NULL;
+		}
+		else {
+
+			//If the property is found, convert it to the appropriate type and initialise the object with
+			// the value.
+			if (propName == "SpriteName")
+			{
+				name = (it->second);
+				name = "../Resources/Assets/" + name;
+
+			}
+			else if (propName == "Dimensions")
+			{
+				ge->dimensions = StringUtils::FromString<sf::IntRect>(it->second);
+			}
+			else if (propName == "DispHeight")
+			{
+				ge->dispHeight = StringUtils::FromString<sf::Int32>(it->second);
+			}
+			else if (propName == "PicHeight")
+			{
+				ge->picHeight = StringUtils::FromString<sf::Int32>(it->second);
+			}
+			else if (propName == "PicWidth")
+			{
+				ge->picWidth = StringUtils::FromString<sf::Int32>(it->second);
+			}
+			else if (propName == "Speed")
+			{
+				ge->speed = StringUtils::FromString<sf::Int32>(it->second);
+			}
+			else if (propName == "Clockwise")
+			{
+				clockwise = true;
+			}
+		}
+	}
+
+	// remove any extra pixels in width 
+	int changedWidth = ((int)ge->dimensions.width / (int)ge->picWidth) * ge->picWidth;
+
+	// remove any extra pixels in height
+	int changedHeight = ((int)ge->dimensions.height / (int)ge->picHeight) * ge->picHeight;
+
+	//change the dimension such that there is no gap
+	ge->dimensions = sf::IntRect(ge->dimensions.left, ge->dimensions.top, changedWidth, changedHeight);
+
+
+	sf::IntRect rec = sf::IntRect(ge->dimensions.left, ge->dimensions.top, ge->picWidth, ge->picHeight);
+	ge->startingY = ge->dimensions.top;
+
+	// calculte total number of pixels that needs to be travelled to cover the whole path
+	ge->totalDistance = (2 * ge->dimensions.width) + (2 * ge->dimensions.height);
+
+	// calculte the time period depending upon the speed
+	ge->timePeriod = 50000.0f / (float)ge->speed;
+
+	// from totalNumberOfPixels and time period. Calculte how much time will it take to travel one pixel
+	ge->timePerPixel = (float)ge->timePeriod / (float)ge->totalDistance;
+
+	// calculate 3 time periods which are explained in update method of ConveyerBeltEntity
+	ge->t1 = ge->dimensions.width * ge->timePerPixel;
+	ge->t2 = ge->t1 + (ge->dimensions.height * ge->timePerPixel);
+	ge->t3 = ge->t2 + (ge->dimensions.width * ge->timePerPixel);
+
+	// knowing the width of each sprite, calculte how much time will it take to
+	// travel the distance of one sprite
+	ge->timeForOneSprite = (ge->timePerPixel * ge->picWidth);
+
+
+
+	// define a reference Texture from spriteName
+	// that can be assigned to each sprite in this conveyerBelt
+	sf::Texture *tex = new sf::Texture();
+	tex->loadFromFile(name, sf::IntRect());
+
+	// create sprite for top layer
+	for (size_t i = 0; i < ge->dimensions.width / ge->picWidth; i++)
+	{
+		sf::RectangleShape *m_drawShape = new sf::RectangleShape();
+		m_drawShape->setTexture(tex);
+
+		m_drawShape->setPosition(sf::Vector2f(rec.left, rec.top));
+
+		((sf::RectangleShape *)(m_drawShape))->setSize(sf::Vector2f((float)rec.width, (float)rec.height));
+
+		ge->m_drawShapes.push_back(m_drawShape);
+
+		rec.left += (ge->picWidth);
+	}
+
+	rec.left = ge->dimensions.left + ge->dimensions.width;
+
+	// create sprites for right layer
+	for (size_t i = 0; i < ge->dimensions.height / ge->picHeight; i++)
+	{
+		sf::RectangleShape *m_drawShape = new sf::RectangleShape();
+		m_drawShape->setTexture(tex);
+
+		m_drawShape->setPosition(sf::Vector2f(rec.left, rec.top));
+
+		((sf::RectangleShape *)(m_drawShape))->setSize(sf::Vector2f((float)rec.width, (float)rec.height));
+
+		ge->m_drawShapes.push_back(m_drawShape);
+
+		rec.top += (ge->picHeight);
+
+	}
+
+	rec.top = ge->dimensions.top + ge->dimensions.height;
+	// create sprite for bottom layer
+	for (size_t i = 0; i < ge->dimensions.width / ge->picWidth; i++)
+	{
+		sf::RectangleShape *m_drawShape = new sf::RectangleShape();
+		m_drawShape->setTexture(tex);
+
+		m_drawShape->setPosition(sf::Vector2f(rec.left, rec.top));
+
+		((sf::RectangleShape *)(m_drawShape))->setSize(sf::Vector2f((float)rec.width, (float)rec.height));
+
+		ge->m_drawShapes.push_back(m_drawShape);
+
+		rec.left -= (ge->picWidth);
+	}
+
+	rec.left = ge->dimensions.left;
+
+	// create sprites for left layer
+	for (size_t i = 0; i < ge->dimensions.height / ge->picHeight; i++)
+	{
+		sf::RectangleShape *m_drawShape = new sf::RectangleShape();
+		m_drawShape->setTexture(tex);
+
+		m_drawShape->setPosition(sf::Vector2f(rec.left, rec.top));
+
+		((sf::RectangleShape *)(m_drawShape))->setSize(sf::Vector2f((float)rec.width, (float)rec.height));
+
+		ge->m_drawShapes.push_back(m_drawShape);
+
+		rec.top -= (ge->picHeight);
+
+	}
+
+	if (ge->m_drawShapes.size() > 0)
+	{
+		ge->dispTime = ge->timePeriod / ge->m_drawShapes.size();
+	}
+
+	return ge;
+}
+
 //creates line sine
 GameEntity *DynamicLineSine::CreateLineSineEntity(Editor::EntityType type, int ID,
 	std::map<std::string, std::string> &props)
@@ -449,7 +628,7 @@ factories = {
 	&StaticEntity::CreateCircularEntity,
 	&StaticEntity::CreateSpriteEntity,
 	&DynamicEntity::CreateLineTrackEntity,
-	&DynamicEntity::CreateLineTrackEntity,
+	&ConveyerBeltEntity::CreateConveyerBeltEntity,
 	&DynamicLineSine::CreateLineSineEntity
 
 };

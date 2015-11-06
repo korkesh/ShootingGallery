@@ -65,7 +65,7 @@ namespace Editor
 #if CS
         new String[]
 #endif
-            {"Dimensions", "DispHeight", "SpriteName", "PicWidth", "PicHeight", "Speed", "Clockwise" },
+            {"Dimensions", "DispHieght", "SpriteName", "PicWidth", "PicHeight", "Speed", "Clockwise" },
 #if CS
         new String[]
 #endif

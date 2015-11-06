@@ -83,6 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConveyerBeltEntity.cpp" />
     <ClCompile Include="DynamicEntity.cpp" />
     <ClCompile Include="DynamicLineSin.cpp" />
     <ClCompile Include="GameEntity.cpp" />
@@ -92,6 +93,7 @@
     <ClCompile Include="tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConveyerBeltEntity.h" />
     <ClInclude Include="DynamicEntity.h" />
     <ClInclude Include="DynamicLineSine.h" />
     <ClInclude Include="GameEntity.h" />
