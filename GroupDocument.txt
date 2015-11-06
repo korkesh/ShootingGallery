@@ -19,4 +19,3 @@ Requirement Descriptions:
 6.
 
 7.	Circle has been implemented and can draw on the screen.
-	

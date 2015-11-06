@@ -1,0 +1,6 @@
+How to load files.
+
+C# Editor: 	Click the load option under the menu on the editor and locate the .xml file you wish to load.
+			Once selected the current tab will load that scene.
+
+C++ Game:	The .xml file must be named "Output.xml" and located in the ShootGall folder. When the game is run it will load this file.
