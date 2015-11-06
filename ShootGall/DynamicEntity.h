@@ -38,9 +38,6 @@ protected:
 private:
 	//The entity that will be rendered to the screen. 
 	
-	
-
-
 	//Draw method inherited from sf::Drawable.
 	
 };

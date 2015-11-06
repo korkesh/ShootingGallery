@@ -15,16 +15,19 @@ using System.Xml;
 namespace Editor
 {
     //I did not add this 
-    static class Constants
-    {
-        public const int TOP_LEFT = 0;
-        public const int TOP_RIGHT = 1;
-        public const int BOTTOM_RIGHT = 2;
-        public const int BOTTOM_LEFT = 3;
-    }
+
 
     public partial class Form1 : Form
     {
+
+        static class Constants
+        {
+            public const int TOP_LEFT = 0;
+            public const int TOP_RIGHT = 1;
+            public const int BOTTOM_RIGHT = 2;
+            public const int BOTTOM_LEFT = 3;
+        }
+
         int tabCount = 1; // Counts the number of tabs which have been created
         List<List<GameEntity>> gameEntityLists = new List<List<GameEntity>>(); // List of game entities belonging to each tab, the index in the list refers to the tab index
 
@@ -102,6 +105,11 @@ namespace Editor
         //Global boolean to check the state of the left mouse button.
         bool LMBDown = false;
         bool Dragging = false;
+        bool Resizing = false;
+
+        int resizeCorner = 0;
+
+        Rectangle prevRec = new Rectangle();
        
         Point MouseDragOffset = new Point();
         Cursor PreviousCursor = Cursors.Default;
@@ -117,7 +125,39 @@ namespace Editor
                 {
                     return;
                 }
-                if(toolsPointer_rb.Checked) {
+                if (toolsPointer_rb.Checked)
+                {
+
+                    // if any entity under this postion is already selected 
+                    // dont select a new entity
+                    GameEntity alreadySe = selectedObject_pg.SelectedObject as GameEntity;
+                    if (alreadySe != null)
+                    {
+                        // check if already selected entity is at mouse down position
+                        if (!alreadySe.GetBoundingBox().Contains(me.Location))
+                        {
+                            // if the entity is not at mouse down position
+                            // check if any of the corner handle of selected entity is at mouse down position
+                            bool corAtMouseDown = false;
+                            for (int cor = 0; cor < 4; cor++)
+                            {
+                                if (alreadySe.CornerHandles[cor].Contains(me.Location))
+                                {
+                                    corAtMouseDown = true;
+                                    break;
+                                }
+                            }
+                            // if none of the corner is selected entity is at mouse down position
+                            // trigger mouse click event 
+                            if (!corAtMouseDown)
+                                TabPanel_MouseClick(sender, me);
+                        }
+                    }
+                    else
+                    {
+                        TabPanel_MouseClick(sender, me);
+                    }
+
                     if ((selectedObject_pg.SelectedObject as GameEntity).GetBoundingBox().Contains(me.Location))
                     {
                         Dragging = true;
@@ -128,7 +168,8 @@ namespace Editor
                         PreviousCursor = tabControl1.Cursor;
                         tabControl1.Cursor = Cursors.SizeAll;
                     }
-                    else {
+                    else
+                    {
                         GameEntity ge = (selectedObject_pg.SelectedObject as GameEntity);
                         if (ge != null)
                         {
@@ -136,12 +177,30 @@ namespace Editor
                             {
                                 if (ge.CornerHandles[i].Contains(me.Location))
                                 {
+                                    Console.WriteLine(me.Location);
                                     //MIDTERM:
                                     //We are on a corner handle and can start to resize it.
+
+                                    Resizing = true;
+                                    resizeCorner = i;
+
+                                    prevRec = ge.GetBoundingBox();
+
+                                    // change the cursor
+                                    // depending upon the corner we are holding
+                                    if (i == Constants.TOP_LEFT || i == Constants.BOTTOM_RIGHT)
+                                    {
+                                        PreviousCursor = tabControl1.Cursor;
+                                        tabControl1.Cursor = Cursors.SizeNWSE;
+                                    }
+                                    else
+                                    {
+                                        PreviousCursor = tabControl1.Cursor;
+                                        tabControl1.Cursor = Cursors.SizeNESW;
+                                    }
                                 }
                             }
                         }
-
                     }
                 }
             }
@@ -157,6 +216,12 @@ namespace Editor
                     Dragging = false;
                     tabControl1.Cursor = PreviousCursor;
                 }
+                if (Resizing)
+                {
+                    Resizing = false;
+                    tabControl1.Cursor = PreviousCursor;
+
+                }
             }
         }
 
@@ -171,6 +236,144 @@ namespace Editor
                 r.Location = new Point(me.Location.X - MouseDragOffset.X, me.Location.Y - MouseDragOffset.Y);
                 ge.SetBoundingBox(r);
                 RefreshAll();
+            }
+            else if (LMBDown && Resizing)
+            {
+                switch (resizeCorner)
+                {
+                    case Constants.TOP_LEFT:
+                        {
+                            // get the selected entity
+                            GameEntity ge = (selectedObject_pg.SelectedObject as GameEntity);
+
+                            // calculate drag of mouse
+                            int changeInX = me.Location.X - MouseDownPos.X;
+                            int changeInY = me.Location.Y - MouseDownPos.Y;
+
+                            // get current bounding box
+                            Rectangle bound = ge.GetBoundingBox();
+
+                            // change X and widht of Bouding Box                             
+                            bound.X = prevRec.X + changeInX;
+                            bound.Width = prevRec.Width - changeInX;
+                            // Change Y and Height of bounding Box
+                            bound.Y = prevRec.Y + changeInY;
+                            bound.Height = prevRec.Height - changeInY;
+
+                            // make sure  the width and height stay positive
+                            if (bound.Width < 1)
+                                bound.Width = 1;
+                            if (bound.Height < 1)
+                                bound.Height = 1;
+
+                            // make sure the position of box doesn't change even if we drag mouse away
+                            bound.X = bound.X > prevRec.Right ? prevRec.Right : bound.X;
+                            bound.Y = bound.Y > prevRec.Bottom ? prevRec.Bottom : bound.Y;
+
+                            ge.SetBoundingBox(bound);
+
+                            RefreshAll();
+                        }
+                        break;
+                    case Constants.TOP_RIGHT:
+                        {
+                            // get the selected entity
+                            GameEntity ge1 = (selectedObject_pg.SelectedObject as GameEntity);
+
+                            // calculate drag of mouse
+                            int changeInX1 = me.Location.X - MouseDownPos.X;
+                            int changeInY1 = me.Location.Y - MouseDownPos.Y;
+
+                            // get current bounding box
+                            Rectangle bound1 = ge1.GetBoundingBox();
+
+                            bound1.Y = prevRec.Y + changeInY1;
+
+                            // change height and widht of Bouding Box 
+                            bound1.Width = prevRec.Width + changeInX1;
+                            bound1.Height = prevRec.Height - changeInY1;
+
+                            // make sure  the width and height stay positive
+                            if (bound1.Width < 1)
+                                bound1.Width = 1;
+                            if (bound1.Height < 1)
+                                bound1.Height = 1;
+
+                            // make sure the position of box doesn't change even if we drag mouse away
+                            bound1.Y = bound1.Y > prevRec.Bottom ? prevRec.Bottom : bound1.Y;
+
+                            ge1.SetBoundingBox(bound1);
+
+                            RefreshAll();
+                        }
+                        break;
+                    case Constants.BOTTOM_RIGHT:
+                        {
+                            // get the selected entity
+                            GameEntity ge1 = (selectedObject_pg.SelectedObject as GameEntity);
+
+                            // calculate drag of mouse
+                            int changeInX1 = me.Location.X - MouseDownPos.X;
+                            int changeInY1 = me.Location.Y - MouseDownPos.Y;
+
+                            // get current bounding box
+                            Rectangle bound1 = ge1.GetBoundingBox();
+
+
+                            // change height and widht of Bouding Box 
+                            bound1.Width = prevRec.Width + changeInX1;
+                            bound1.Height = prevRec.Height + changeInY1;
+
+                            // make sure  the width and height stay positive
+                            if (bound1.Width < 1)
+                                bound1.Width = 1;
+                            if (bound1.Height < 1)
+                                bound1.Height = 1;
+
+
+                            ge1.SetBoundingBox(bound1);
+
+                            RefreshAll();
+                            break;
+                        }
+
+                    case Constants.BOTTOM_LEFT:
+                        {
+                            // get the selected entity
+                            GameEntity ge1 = (selectedObject_pg.SelectedObject as GameEntity);
+
+                            // calculate drag of mouse
+                            int changeInX1 = me.Location.X - MouseDownPos.X;
+                            int changeInY1 = me.Location.Y - MouseDownPos.Y;
+
+                            // get current bounding box
+                            Rectangle bound1 = ge1.GetBoundingBox();
+
+                            // change X and widht of Bouding Box                             
+                            bound1.X = prevRec.X + changeInX1;
+
+                            // change height and widht of Bouding Box 
+                            bound1.Width = prevRec.Width - changeInX1;
+                            bound1.Height = prevRec.Height + changeInY1;
+
+                            // make sure  the width and height stay positive
+                            if (bound1.Width < 1)
+                                bound1.Width = 1;
+                            if (bound1.Height < 1)
+                                bound1.Height = 1;
+
+                            // make sure the position of box doesn't change even if we drag mouse away
+                            bound1.X = bound1.X > prevRec.Right ? prevRec.Right : bound1.X;
+
+                            ge1.SetBoundingBox(bound1);
+
+                            RefreshAll();
+                            break;
+                        }
+                    default:
+                        break;
+
+                }
             }
         }
 
@@ -200,6 +403,20 @@ namespace Editor
                         found = true;
                         break;
                     }
+
+
+                    //Freed Ahmad//
+                    // also check if the handles of this GameEntity are under this position
+                    for (int corner = 0; corner < 4; corner++)
+                    {
+                        if (ge.CornerHandles[corner].Contains(me.Location))
+                        {
+                            currIndex = i;
+                            found = true;
+                            break;
+                        }
+                    }
+
                 }
                 //If we don't find anything below, check above (including the entity itself)
                 if (!found)
@@ -216,8 +433,10 @@ namespace Editor
                         }
                     }
                 }
+
                 //Set the new index (if one was found) and refresh.
                 gameEntities_lb.SelectedIndex = currIndex;
+
                 RefreshAll();
             }
         }

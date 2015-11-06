@@ -24,4 +24,4 @@ C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.Properties.R
 C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.csproj.GenerateResource.Cache
 C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.exe
 C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.pdb
-C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.Constants.resources
+C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.Form1.resources
