@@ -14,8 +14,8 @@ Requirement Descriptions:
 	
 4.	
 
-5.
+5.	Sprites are implemented and shown in the editor. Sprites can be flipped/Mirrored but will only show in game. Forgot they had to rotate untill too late so rotate is not         implemented.
 
-6.
+6.	Can implement LineTrack(straight line), ConveyBelt(conveyor belt) and LineSin(waves appear in sin wave with the period of the width if b is 1). Sprites are shown in         Editor.
 
-7.	Circle has been implemented and can draw on the screen.
+7.	Circle has been implemented and can draw on the screen.Sprites are drawn on screen and can be flipped/Mirrored.Line track has sprites going up and down. LineSin has         sprites moving based on the sin wave.
