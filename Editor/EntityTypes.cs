@@ -33,6 +33,7 @@ namespace Editor
     {
         public static String[][] EntityProperties = new String[][]
 #endif
+        //added stuff here
 #if CPP
     using namespace std;
     class GameEntity;
@@ -51,7 +52,24 @@ namespace Editor
 #if CS
         new String[]
 #endif
-            {"Position", "Radius", "OutlineColor", "FillColor"}
+            {"Position", "Radius", "OutlineColor", "FillColor"},
+        
+#if CS
+        new String[]
+#endif
+            {"Dimensions", "OutlineColor", "SpriteName", "Flipped" },
+#if CS
+        new String[]
+#endif
+            {"Dimensions", "DispHeight", "SpriteName", "PicWidth", "PicHeight", "Speed" },
+#if CS
+        new String[]
+#endif
+            {"Dimensions", "DispHeight", "SpriteName", "PicWidth", "PicHeight", "Speed", "Clockwise" },
+#if CS
+        new String[]
+#endif
+            {"Dimensions", "b", "SpriteName", "PicWidth", "PicHeight", "Speed", "a", "c","Static" }
         };
 #if CS
     }

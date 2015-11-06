@@ -14,6 +14,15 @@ using System.Xml;
 
 namespace Editor
 {
+    //I did not add this 
+    static class Constants
+    {
+        public const int TOP_LEFT = 0;
+        public const int TOP_RIGHT = 1;
+        public const int BOTTOM_RIGHT = 2;
+        public const int BOTTOM_LEFT = 3;
+    }
+
     public partial class Form1 : Form
     {
         int tabCount = 1; // Counts the number of tabs which have been created
@@ -303,6 +312,7 @@ namespace Editor
                         }
                     case EntityType.SPRITE:
                         {
+                            //creating sprite manually give path where image should be
                             string s = "..\\..\\..\\Resources\\Assets\\" + (string)ge.Props["SpriteName"];
                             Image im = Image.FromFile(s);
                             Rectangle bb = ge.GetBoundingBox();
@@ -315,18 +325,23 @@ namespace Editor
                         }
                     case EntityType.LINETRACK:
                         {
+                            //creating linetracksprite manually give path where image should be
                             string s = "..\\..\\..\\Resources\\Assets\\" + (string)ge.Props["SpriteName"];
                             Image im = Image.FromFile(s);
                             Rectangle bb = ge.GetBoundingBox();
                             Pen sb = new Pen(Color.Gray);
                             sb.Width = 3;
+                            //get x pos at end of line
                             int nx = bb.X + bb.Width;
                             int ny = bb.Y + (bb.Height / 2);
+                            //drawingline
                             g.DrawLine(sb, bb.X, ny, nx, ny);
+                            //calculate how many pictures can fit
                             int howmany = bb.Width / (int)ge.Props["PicWidth"];
-                            for (int iter = 0; iter < howmany; iter++ )
+                            //go through how many and alternate height for everyother one
+                            for (int iter = 0; iter < howmany; iter++)
                             {
-                                if(iter%2 == 0)
+                                if (iter % 2 == 0)
                                 {
                                     g.DrawImage(im, new Rectangle((bb.X + iter * (int)ge.Props["PicWidth"]), (ny - (int)ge.Props["PicHeight"]), (int)ge.Props["PicWidth"], (int)ge.Props["PicHeight"]));
                                 }
@@ -334,29 +349,37 @@ namespace Editor
                                 {
                                     g.DrawImage(im, new Rectangle((bb.X + iter * (int)ge.Props["PicWidth"]), ((ny - (int)ge.Props["PicHeight"]) + (int)ge.Props["DispHeight"]), (int)ge.Props["PicWidth"], (int)ge.Props["PicHeight"]));
                                 }
-                                
+
                             }
-                                break;
+                            break;
                         }
                     case EntityType.CONVEYBELT:
                         {
+                            //get pic
                             string s = "..\\..\\..\\Resources\\Assets\\" + (string)ge.Props["SpriteName"];
                             Image im = Image.FromFile(s);
                             Rectangle bb = ge.GetBoundingBox();
                             Pen sb = new Pen(Color.Black);
                             sb.Width = 3;
+                            //arc will be drawn in a rectangle of 1/8 the width of the track
                             int arcBwidth = bb.Width / 8;
+                            //arc will only take up 1/16th of box so line must start there
                             int lineStart = arcBwidth / 2;
+                            //draw both lines
                             g.DrawLine(sb, bb.X+lineStart-1, bb.Y, bb.X+bb.Width-lineStart+1, bb.Y);
                             g.DrawLine(sb, bb.X + lineStart - 1, bb.Y + bb.Height, bb.X + bb.Width - lineStart + 1, bb.Y + bb.Height);
+                            //draw both arcs
                             g.DrawArc(sb, new Rectangle(bb.X,bb.Y,arcBwidth,bb.Height), 90.0f, 180.0f);
                             g.DrawArc(sb, new Rectangle((bb.X + (bb.Width-arcBwidth)), bb.Y, arcBwidth, bb.Height), -90.0f, 180.0f);
+                            //how amny can fit (didnt do height for editor)
                             int howmanyW = bb.Width / (int)ge.Props["PicWidth"];
                             int howmanyH = bb.Height/ (int)ge.Props["PicWidth"];
+                            //draws pisc above
                             for (int iter = 0; iter < howmanyW; iter++)
                             {
                                 g.DrawImage(im, new Rectangle((bb.X + iter * (int)ge.Props["PicWidth"]), bb.Y - (int)ge.Props["PicHeight"], (int)ge.Props["PicWidth"], (int)ge.Props["PicHeight"]));
                             }
+                            //flips for below
                             im.RotateFlip(RotateFlipType.Rotate180FlipNone);
                             for (int iter = 0; iter < howmanyW; iter++)
                             {
@@ -370,26 +393,30 @@ namespace Editor
                         }
                     case EntityType.LINESIN:
                         {
+                            //get pic
                             string s = "..\\..\\..\\Resources\\Assets\\" + (string)ge.Props["SpriteName"];
                             Image im = Image.FromFile(s);
                             Rectangle bb = ge.GetBoundingBox();
                             Pen sb = new Pen(Color.Gray);
                             sb.Width = 3;
+                            //stuff to draw line
                             int nx = bb.X + bb.Width;
-                            int ny = bb.Y + (bb.Height / 2);
+                            int ny = bb.Y;
                             g.DrawLine(sb, bb.X, ny, nx, ny);
                             int howmany = bb.Width / (int)ge.Props["PicWidth"];
                             int myX;
                             int myY;
+                            //start calculations for sin wave
                             double crazyAmp = (2 * Math.PI / (bb.Width * 1 / (int)(int)ge.Props["b"]));
-                            
+
                             for (int iter = 0; iter < howmany; iter++)
                             {
+                                //draw pic in right location based on formula
                                 myX = (int)ge.Props["PicWidth"] * iter;
                                 double sin = Math.Sin(crazyAmp * (double)myX);
-                                double complete = (int)ge.Props["a"]*sin*(bb.Height/2);
+                                double complete = (int)ge.Props["a"] * sin * (2);
                                 myY = (int)(complete + (int)ge.Props["c"]);
-                                g.DrawImage(im, new Rectangle((bb.X + myX), (bb.Y-myY), (int)ge.Props["PicWidth"], (int)ge.Props["PicHeight"]));
+                                g.DrawImage(im, new Rectangle((bb.X + myX), (bb.Y - myY), (int)ge.Props["PicWidth"], (int)ge.Props["PicHeight"]));
                             }
                             break;
                         }
@@ -401,6 +428,7 @@ namespace Editor
                         }
                     break; }
                 }
+                //bounding box stuff
                 if (gameEntities_lb.SelectedItem == ge)
                 {
                     Rectangle outline = ge.OutlineBox;

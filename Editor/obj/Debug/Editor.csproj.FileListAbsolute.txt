@@ -20,8 +20,8 @@ C:\Users\gallalex\Documents\ShootingGallery\Editor\bin\Debug\Editor.exe.config
 C:\Users\gallalex\Documents\ShootingGallery\Editor\bin\Debug\Editor.exe
 C:\Users\gallalex\Documents\ShootingGallery\Editor\bin\Debug\Editor.pdb
 C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.csprojResolveAssemblyReference.cache
-C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.Form1.resources
 C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.Properties.Resources.resources
 C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.csproj.GenerateResource.Cache
 C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.exe
 C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.pdb
+C:\Users\gallalex\Documents\ShootingGallery\Editor\obj\Debug\Editor.Constants.resources

@@ -65,6 +65,7 @@ namespace Editor
                     propsCopy.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = value["OutlineColor"] });
                     propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
                     propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = value["SpriteName"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Flipped", Type = typeof(bool), DefaultValue = value["Flipped"] });
                 }
                 else if (Type == EntityType.LINETRACK)
                 {
@@ -97,7 +98,7 @@ namespace Editor
                     propsCopy.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = 1 });
                     propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
                     propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
-
+                    propsCopy.TryAdd(new CustomProperty { Name = "Static", Type = typeof(bool), DefaultValue = value["Static"] });
                 }
                 m_props = propsCopy;
             }
@@ -179,15 +180,17 @@ namespace Editor
             return ge;
         }
 
+        //create sprite
         public static GameEntity CreateSprite(int x, int y, int w, int h)
         {
             GameEntity ge = new GameEntity();
             ge.Type = EntityType.SPRITE;
             ge.Props.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
             ge.Props.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = Color.Transparent });
+            ge.Props.TryAdd(new CustomProperty { Name = "Flipped", Type = typeof(bool), DefaultValue = false });
             CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x, y, w, h) };
             ge.Props.TryAdd(dim);
-           
+
 
             ge.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
             {
@@ -199,8 +202,8 @@ namespace Editor
                 return ge.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
             });
 
-           
-        
+
+
             return ge;
         }
 
@@ -244,6 +247,7 @@ namespace Editor
             return ge;
         }
 
+        //create linetrack
         public static GameEntity CreateLineTrack(int x, int y, int w, int h)
         {
             GameEntity ge = new GameEntity();
@@ -270,6 +274,7 @@ namespace Editor
             return ge;
         }
 
+        //create Conveyor belt
         public static GameEntity CreateConveyBelt(int x, int y, int w, int h)
         {
             GameEntity ge = new GameEntity();
@@ -297,6 +302,7 @@ namespace Editor
             return ge;
         }
 
+        //create LineSin
         public static GameEntity CreateLineSin(int x, int y, int w, int h)
         {
             GameEntity ge = new GameEntity();
@@ -308,6 +314,7 @@ namespace Editor
             ge.Props.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = 20 });
             ge.Props.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = 1 });
             ge.Props.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
+            ge.Props.TryAdd(new CustomProperty { Name = "Static", Type = typeof(bool), DefaultValue = false });
             CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x, y, w, h) };
             ge.Props.TryAdd(dim);
 
