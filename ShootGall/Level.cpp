@@ -50,3 +50,51 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		target.draw(*m_entities[i]);
 	}
 }
+
+//update the level
+void Level::update(float dt)
+{
+	//if their are enitites in level
+	if (m_entities.size() > 0)
+	{
+		for (size_t i = 0; i < m_entities.size(); i++)
+		{
+			GameEntity *entity = m_entities[i];
+
+			//movable entities all have type greater than 3
+			if (entity->type > 3)
+			{
+				//call that entities update
+				entity->update(dt);
+			}
+
+		}
+	}
+}
+
+//code to move the curtain
+void Level::moveCurtain(float a)
+{
+	GameEntity *entity = NULL;
+	bool found = false;
+
+	if (m_entities.size() > 0)
+	{
+		for (size_t i = 0; i < m_entities.size(); i++)
+		{
+			//checks if it has fount the entity that has iscurtain as true
+			if (m_entities[i]->isCurtain)
+			{
+				entity = m_entities[i];
+				found = true;
+				break;
+			}
+		}
+	}
+
+	if (entity != NULL)
+	{
+		//updates if found , since no other static entity needs an update I made the static update specific for the curtain
+		entity->update(a);
+	}
+}

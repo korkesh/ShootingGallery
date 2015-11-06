@@ -31,19 +31,26 @@ namespace Editor {
 class GameEntity :
 	public sf::Drawable
 {
-public:	
-	
+public:
+
 	//Returns the ID
 	int ID() const {
 		return m_id;
 	}
 	virtual ~GameEntity();
 
+	//type of entity
+	int type;
+	//is it the curtain
+	bool isCurtain;
+
 	//Loads the game entity from an xml element. Handles parsing and calling the 
 	// correct factory method, which should be uniquely created for each type of
 	// entity.
 	static GameEntity *loadFromXml(tinyxml2::XMLElement *element);
-	
+
+	virtual void update(float dt) = 0;
+
 
 protected:
 	//Create a new game entity. Must have a unique ID (note that the ID is not
@@ -58,8 +65,7 @@ private:
 	int m_id;
 	//Draw override. Currently declared as a pure virtual, making GameEntity an abstract class.
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;
-	
-	
-	
+
+
 };
 

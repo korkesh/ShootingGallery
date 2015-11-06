@@ -29,9 +29,11 @@ public:
 	// which point it handles getting the entity type and calling the correct factory method.
 	bool loadFromFile(std::string filename);
 	//MIDTERM: Implement me! Make the dynamic objects move!
-	void update(float delta) {}
+	void update(float delta);
 	//Inherited from sf::Drawable, should render each of the game entities in the level.
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	//moves curatin
+	void moveCurtain(float a);
 private:
 	//Collection for the levels game entities. If you decide on multiple collections for different
 	// jobs make sure you do the clean up properly.

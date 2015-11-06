@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 	l->loadFromFile("Output.xml");
 
 	//Create the render window and gaming clock.
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Shooting Gallery");
+	sf::RenderWindow window(sf::VideoMode(589, 485), "Shooting Gallery");
 	sf::Clock gameClock;
 	float gameTime = 0.0f;
 	float currentTime = 0.0f;
@@ -38,6 +38,19 @@ int main(int argc, char *argv[]) {
 			gameTime += delta;
 			drawRequested = true;
 		}
+
+		//check for keybaord input
+		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up)))
+		{
+			l->moveCurtain(-1);
+		}
+		if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down)))
+		{
+			l->moveCurtain(1);
+		}
+
+		//update all moving parts
+		l->update(delta);
 
 		//Render if requested.
 		if (drawRequested) {

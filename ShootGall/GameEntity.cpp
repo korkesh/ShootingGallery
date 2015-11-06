@@ -11,6 +11,10 @@
 #include "../Editor/EntityTypes.cs"
 
 #include "StaticEntity.h"
+#include "DynamicEntity.h"
+#include "DynamicLineSine.h"
+#define _USE_MATH_DEFINES 
+#include <cmath>
 
 //Factory method for creating a static rectangle. It gets drawn to a position and has a 
 // size, an outline color, and a fill color. Static entities aren't expected to move.
@@ -27,6 +31,8 @@ GameEntity *StaticEntity::CreateRectangularEntity(Editor::EntityType type, int I
 	StaticEntity *ge = new StaticEntity(ID);
 	ge->m_drawShape = new sf::RectangleShape();
 	ge->m_drawShape->setOutlineThickness(1.0f);
+	//is never curtain
+	ge->isCurtain = false;
 	//Check that all properties are present, convert them from strings to the required data type,
 	// and set up the object. Note that ideally the order in which the properties are processed should
 	// not matter.
@@ -69,6 +75,8 @@ GameEntity *StaticEntity::CreateCircularEntity(Editor::EntityType type, int ID,
 
 	//MIDTERM: You got this right?
 	ge->m_drawShape->setOutlineThickness(1.0f);
+	//is never curtain
+	ge->isCurtain = false;
 	//Check that all properties are present, convert them from strings to the required data type,
 	// and set up the object. Note that ideally the order in which the properties are processed should
 	// not matter.
@@ -106,6 +114,328 @@ GameEntity *StaticEntity::CreateCircularEntity(Editor::EntityType type, int ID,
 	return ge;
 }
 
+//creating Sprtie entity
+GameEntity *StaticEntity::CreateSpriteEntity(Editor::EntityType type, int ID,
+	std::map<std::string, std::string> &props)
+{
+	StaticEntity *ge = new StaticEntity(ID);
+	ge->m_drawShape = new sf::RectangleShape();
+
+	ge->type = 3;
+
+	//has no outline
+	ge->m_drawShape->setOutlineThickness(0.0f);
+	//Check that all properties are present, convert them from strings to the required data type,
+	// and set up the object. Note that ideally the order in which the properties are processed should
+	// not matter.
+	bool propMissing = false;
+
+	for (std::size_t i = 0; i < Editor::EntityProperties[(int)type].size(); i++)
+	{
+		std::string propName = Editor::EntityProperties[(int)type][i];
+		std::map<std::string, std::string>::iterator it = props.find(propName);
+		//Currently we fail as soon as we miss a single value - if we have optional parameters we will
+		// need to make this logic a bit more complex.
+		if (it == props.end()) {
+			propMissing = true;
+			delete ge;
+			return NULL;
+		}
+		else {
+
+			//gets name of image
+			if (propName == "SpriteName") {
+
+				std::string name = (it->second);
+				//if it is the curtain image set isCurtain to true else false
+				if (name == "Curtain.fw.png")
+				{
+					ge->isCurtain = true;
+				}
+				else
+				{
+					ge->isCurtain = false;
+				}
+				//loads and sets proper image as texture
+				name = "../Resources/Assets/" + name;
+				sf::Texture *tex = new sf::Texture();
+				tex->loadFromFile(name, sf::IntRect());
+				ge->m_drawShape->setTexture(tex);
+
+			}
+			//gets dim of the rectangle for the image
+			if (propName == "Dimensions") {
+				sf::IntRect dim = StringUtils::FromString<sf::IntRect>(it->second);
+				ge->m_drawShape->setPosition(sf::Vector2f((float)dim.left, (float)dim.top));
+				((sf::RectangleShape *)(ge->m_drawShape))->setSize(sf::Vector2f((float)dim.width, (float)dim.height));
+				ge->startingY = dim.top;
+
+			}
+			//checks if the image should be reversed(mirrored)
+			if (propName == "Flipped") {
+				std::string flip = (it->second);
+				if (flip == "True")
+				{
+					//flips image
+					ge->m_drawShape->setOrigin(ge->m_drawShape->getLocalBounds().width, 0);
+					ge->m_drawShape->setScale(-1, 1);
+				}
+			}
+			else if (propName == "OutlineColor") {
+				ge->m_drawShape->setOutlineColor(StringUtils::FromString<sf::Color>(it->second));
+			}
+		}
+	}
+
+	//Return the initialised game entity.
+	return ge;
+}
+
+//creating linetrack
+GameEntity *DynamicEntity::CreateLineTrackEntity(Editor::EntityType type, int ID,
+	std::map<std::string, std::string> &props)
+{
+	DynamicEntity *ge = new DynamicEntity(ID);
+
+	ge->type = 4;
+	//is never curtain
+	ge->isCurtain = false;
+	sf::IntRect dim;
+	int picWidth;
+	int picHeight;
+
+	std::string name;
+	//direction the images move
+	bool clockwise;
+
+	bool propMissing = false;
+
+	for (std::size_t i = 0; i < Editor::EntityProperties[(int)type].size(); i++)
+	{
+		std::string propName = Editor::EntityProperties[(int)type][i];
+		std::map<std::string, std::string>::iterator it = props.find(propName);
+		//Currently we fail as soon as we miss a single value - if we have optional parameters we will
+		// need to make this logic a bit more complex.
+		if (it == props.end()) {
+			propMissing = true;
+			delete ge;
+			return NULL;
+		}
+		else {
+
+			//If the property is found, convert it to the appropriate type and initialise the object with
+			// the value.
+			if (propName == "SpriteName")
+			{
+				name = (it->second);
+				name = "../Resources/Assets/" + name;
+		
+
+			}
+			//dim of total rec
+			else if (propName == "Dimensions")
+			{
+				dim = StringUtils::FromString<sf::IntRect>(it->second);
+			}
+			//how high will they go
+			else if (propName == "DispHeight")
+			{
+				ge->dispHeight = StringUtils::FromString<sf::Int32>(it->second);
+			}
+			//picture height
+			else if (propName == "PicHeight")
+			{
+				picHeight = StringUtils::FromString<sf::Int32>(it->second);
+				//ge->m_drawShape->setOutlineColor(StringUtils::FromString<sf::Color>(it->second));
+			}
+			//pic width
+			else if (propName == "PicWidth")
+			{
+				picWidth = StringUtils::FromString<sf::Int32>(it->second);
+			}
+			//how fast they move
+			else if (propName == "Speed")
+			{
+				ge->speed = StringUtils::FromString<sf::Int32>(it->second);
+			}
+			//direction
+			else if (propName == "Clockwise")
+			{
+				clockwise = true;
+			}
+		}
+	}
+
+
+	sf::IntRect rec = sf::IntRect(dim.left, dim.top, picWidth, picHeight);
+	ge->startingY = dim.top;
+
+	sf::Texture *tex = new sf::Texture();
+	tex->loadFromFile(name, sf::IntRect());
+
+	//creates new ractshape for every image needed
+	for (size_t i = 0; i < dim.width / picWidth; i++)
+	{
+		sf::RectangleShape *m_drawShape = new sf::RectangleShape();
+		m_drawShape->setTexture(tex);
+
+		m_drawShape->setPosition(sf::Vector2f(rec.left, rec.top));
+
+		((sf::RectangleShape *)(m_drawShape))->setSize(sf::Vector2f((float)rec.width, (float)rec.height));
+
+		ge->m_drawShapes.push_back(m_drawShape);
+
+		rec.left += (picWidth);
+	}
+
+	return ge;
+}
+
+//creates line sine
+GameEntity *DynamicLineSine::CreateLineSineEntity(Editor::EntityType type, int ID,
+	std::map<std::string, std::string> &props)
+{
+	DynamicLineSine *ge = new DynamicLineSine(ID);
+
+	ge->type = 6;
+	ge->isCurtain = false;
+	sf::IntRect dim;
+	int picWidth;
+	int picHeight;
+
+	std::string name;
+
+	bool propMissing = false;
+
+	for (std::size_t i = 0; i < Editor::EntityProperties[(int)type].size(); i++)
+	{
+		std::string propName = Editor::EntityProperties[(int)type][i];
+		std::map<std::string, std::string>::iterator it = props.find(propName);
+		//Currently we fail as soon as we miss a single value - if we have optional parameters we will
+		// need to make this logic a bit more complex.
+		if (it == props.end()) {
+			propMissing = true;
+			delete ge;
+			return NULL;
+		}
+		else {
+
+			//If the property is found, convert it to the appropriate type and initialise the object with
+			// the value.
+			//gets name for image
+			if (propName == "SpriteName")
+			{
+				name = (it->second);
+				name = "../Resources/Assets/" + name;
+		
+
+			}
+			//dim of total rect
+			else if (propName == "Dimensions")
+			{
+				dim = StringUtils::FromString<sf::IntRect>(it->second);
+			}
+			//amplitude
+			else if (propName == "a")
+			{
+				ge->a = StringUtils::FromString<sf::Int32>(it->second);
+			}
+			//pic height
+			else if (propName == "PicHeight")
+			{
+				picHeight = StringUtils::FromString<sf::Int32>(it->second);
+				
+			}
+			//picWidth
+			else if (propName == "PicWidth")
+			{
+				picWidth = StringUtils::FromString<sf::Int32>(it->second);
+			}
+			//how fast it moves
+			else if (propName == "Speed")
+			{
+				ge->speed = StringUtils::FromString<sf::Int32>(it->second);
+			}
+			//period
+			else if (propName == "b")
+			{
+				ge->b = StringUtils::FromString<sf::Int32>(it->second);
+			}
+			//distance down
+			else if (propName == "c")
+			{
+				ge->c = StringUtils::FromString<sf::Int32>(it->second);
+			}
+			//move in sin wave or just up and down in pos
+			else if (propName == "Static")
+			{
+				std::string s = (it->second);
+				if (s == "True")
+				{
+					ge->Static = true;
+				}
+				else
+				{
+					ge->Static = false;
+				}
+			}
+		}
+	}
+
+
+	sf::IntRect rec = sf::IntRect(dim.left, dim.top, picWidth, picHeight);
+	ge->startingY = dim.top;
+
+	sf::Texture *tex = new sf::Texture();
+	tex->loadFromFile(name, sf::IntRect());
+	for (size_t i = 0; i < dim.width / picWidth; i++)
+	{
+		sf::RectangleShape *m_drawShape = new sf::RectangleShape();
+		m_drawShape->setTexture(tex);
+		//calculates postion based on sin wave
+		double mid = (2 * 3.14159265358979323846) / (dim.width * 1 / ge->b);
+		int d = (int)(2 * ge->a*_CMATH_::sin(mid*rec.left) + ge->c + rec.top);
+		//use the derivative to figure out if it should be going up or down
+		int z = (int)(2 * mid* ge->a*_CMATH_::cos(mid*rec.left));
+		bool dir;
+		// dir false means down , dir true means up
+		if (z < 0)
+		{
+			dir = false;
+		}
+		else if (z > 0)
+		{
+			dir = true;
+		}
+		//if the dirivative is 0 meaning its at the top or bottom move over 1 to figure out dir
+		else if (z == 0)
+		{
+			z = 2 * mid* ge->a*_CMATH_::cos(mid*rec.left + 1);
+			if (z < 0)
+			{
+				dir = false;
+			}
+			else if (z > 0)
+			{
+				dir = true;
+			}
+		}
+
+		//set the position
+		m_drawShape->setPosition(sf::Vector2f(rec.left, d));
+
+		((sf::RectangleShape *)(m_drawShape))->setSize(sf::Vector2f((float)rec.width, (float)rec.height));
+		//add the entities and direction to the respective vectors
+		ge->m_drawShapes.push_back(m_drawShape);
+		ge->direction.push_back(dir);
+		//increase in the x axis
+		rec.left += (picWidth);
+	}
+
+	return ge;
+}
+
+
 //MIDTERM: You will need additional factory functions with the correct signature to handle 
 // any new gameentity types you create.
 
@@ -116,7 +446,11 @@ std::vector<GameEntity *(*)(Editor::EntityType type, int ID, std::map<std::strin
 factories = {
 	NULL,
 	&StaticEntity::CreateRectangularEntity,
-	&StaticEntity::CreateCircularEntity
+	&StaticEntity::CreateCircularEntity,
+	&StaticEntity::CreateSpriteEntity,
+	&DynamicEntity::CreateLineTrackEntity,
+	&DynamicEntity::CreateLineTrackEntity,
+	&DynamicLineSine::CreateLineSineEntity
 
 };
 
