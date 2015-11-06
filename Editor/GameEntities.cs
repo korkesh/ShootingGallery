@@ -42,6 +42,7 @@ namespace Editor
             get { return m_props; }
             set
             {
+                // Performs a deep copy of the properties
                 CustomPropertyDictionary propsCopy = new CustomPropertyDictionary();
                 propsCopy.Name = value.Name;
 
@@ -207,8 +208,6 @@ namespace Editor
         {
             GameEntity ge = new GameEntity();
             ge.Type = EntityType.CIRCLE;
-            //MIDTERM: Initialise the rest of the entity, including the properties (see CreateRectangle() for reference).
-            // Don't forget you also need to initialise the BoundingBox delegates.
             ge.Props.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = Color.Magenta });
             ge.Props.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = Color.Transparent });
             CustomProperty rad = new CustomProperty { Name = "Radius", Type = typeof(int), DefaultValue = radius };
@@ -218,6 +217,7 @@ namespace Editor
 
             ge.SetBoundingBox = new delSetBoundingBox(delegate (Rectangle r)
             {
+                // Must set bounding box based on the circles radius and location
                 ge.Props["Radius"] = r.Width/2;
                 ge.Props["Position"] = r.Location;
 
@@ -230,6 +230,7 @@ namespace Editor
 
                 if (!(ge.Props["Radius"] == null && ge.Props["Position"] == null))
                 {
+                    // Set bounding box to encompass circle based on diameter
                     Size size = new Size((int)ge.Props["Radius"] * 2, (int)ge.Props["Radius"] * 2);
                     bb = new Rectangle((Point)ge.Props["Position"], size);
 

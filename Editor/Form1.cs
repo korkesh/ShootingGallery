@@ -16,8 +16,8 @@ namespace Editor
 {
     public partial class Form1 : Form
     {
-        int tabCount = 1;
-        List<List<GameEntity>> gameEntityLists = new List<List<GameEntity>>();
+        int tabCount = 1; // Counts the number of tabs which have been created
+        List<List<GameEntity>> gameEntityLists = new List<List<GameEntity>>(); // List of game entities belonging to each tab, the index in the list refers to the tab index
 
         //List of allowed property types used for populating the combo boxes.
         public List<String> AllowedTypes = new List<string>();
@@ -638,6 +638,7 @@ namespace Editor
 
         }
 
+        // Parse XML for each object type; creates new GameEntity object if possible and returns it
         GameEntity loadFromXml(XmlNode entity)
         {
             GameEntity ge = null;
@@ -816,6 +817,7 @@ namespace Editor
             tabControl1.TabPages.Remove(tabControl1.SelectedTab);
         }
 
+        // Delete the selected GameEntity
         private void delete_btn_Click(object sender, EventArgs e)
         {
             GameEntity ge = selectedObject_pg.SelectedObject as GameEntity;
@@ -829,6 +831,7 @@ namespace Editor
             RefreshAll();
         }
 
+        // Performs a deep copy the selected GameEntity
         private void clone_btn_Click(object sender, EventArgs e)
         {
             GameEntity ge = selectedObject_pg.SelectedObject as GameEntity;
@@ -837,6 +840,7 @@ namespace Editor
 
 
             GameEntity geCopy = null;
+            // Create new GameEntity
             if (entity == EntityType.RECT) {
                 geCopy = GameEntity.CreateRectangle(bb.Location.Y , bb.Location.Y, bb.Width, bb.Height);
             }
@@ -866,9 +870,10 @@ namespace Editor
                 geCopy = GameEntity.CreateLineSin(bb.Location.Y, bb.Location.Y, bb.Width, bb.Height);
             }
 
-            geCopy.SetBoundingBox(bb);
-            geCopy.Props = ge.Props;
+            geCopy.SetBoundingBox(bb); // Sets bounding box
+            geCopy.Props = ge.Props; // Deep copy of properties
 
+            // Adds the gameentity to the list of entities if not null
             if (geCopy != null)
             {
                 gameEntities_lb.Items.Add(geCopy);
@@ -878,6 +883,7 @@ namespace Editor
             }
         }
 
+        // Shift the gameentity forward in the list
         private void forward_btn_Click(object sender, EventArgs e)
         {
             if (gameEntities_lb.SelectedIndex > 0)
@@ -899,6 +905,7 @@ namespace Editor
             }
         }
 
+        // Shift the gameentity backward in the list
         private void back_btn_Click(object sender, EventArgs e)
         {
             if (gameEntities_lb.SelectedIndex < gameEntities_lb.Items.Count - 1)
@@ -920,6 +927,7 @@ namespace Editor
             }
         }
 
+        // Update Entity list on Tab change
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             SetTabPanelEvents(tabControl1.TabPages[tabControl1.SelectedIndex]);
@@ -932,11 +940,11 @@ namespace Editor
             gameEntityLists[tabControl1.SelectedIndex].Clear();
         }
 
+        // Save Entity list on Tab change from the previous tab
         private void tabControl1_Deselected(object sender, TabControlEventArgs e)
         {
             if (tabControl1.SelectedIndex >= 0)
             {
-                // Previous Tab
                 RemoveMouseEvents(tabControl1.TabPages[tabControl1.SelectedIndex]);
 
                 for (int i = 0; i < gameEntities_lb.Items.Count; i++)
