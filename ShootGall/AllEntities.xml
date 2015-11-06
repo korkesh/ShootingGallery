@@ -1,0 +1,45 @@
+<Entities>
+  <GameEntity Type="1" TypeStr="RECT" ID="0">
+    <OutlineColor TypeStr="System.Drawing.Color">0 0 0 255</OutlineColor>
+    <FillColor TypeStr="System.Drawing.Color">255 255 255 0</FillColor>
+    <Dimensions TypeStr="System.Drawing.Rectangle">37 52 100 100</Dimensions>
+  </GameEntity>
+  <GameEntity Type="2" TypeStr="CIRCLE" ID="1">
+    <OutlineColor TypeStr="System.Drawing.Color">255 0 255 255</OutlineColor>
+    <FillColor TypeStr="System.Drawing.Color">255 255 255 0</FillColor>
+    <Radius TypeStr="System.Int32">50</Radius>
+    <Position TypeStr="System.Drawing.Point">{X=227,Y=108}</Position>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="2">
+    <SpriteName TypeStr="System.String">water1.png</SpriteName>
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Dimensions TypeStr="System.Drawing.Rectangle">423 73 100 100</Dimensions>
+  </GameEntity>
+  <GameEntity Type="4" TypeStr="LINETRACK" ID="3">
+    <DispHeight TypeStr="System.Int32">10</DispHeight>
+    <PicWidth TypeStr="System.Int32">50</PicWidth>
+    <PicHeight TypeStr="System.Int32">50</PicHeight>
+    <Speed TypeStr="System.Int32">1</Speed>
+    <SpriteName TypeStr="System.String">water1.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">40 264 100 20</Dimensions>
+  </GameEntity>
+  <GameEntity Type="5" TypeStr="CONVEYBELT" ID="4">
+    <DispHieght TypeStr="System.Int32">1</DispHieght>
+    <PicWidth TypeStr="System.Int32">50</PicWidth>
+    <PicHeight TypeStr="System.Int32">50</PicHeight>
+    <Speed TypeStr="System.Int32">1</Speed>
+    <Clockwise TypeStr="System.Boolean">True</Clockwise>
+    <SpriteName TypeStr="System.String">water1.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">254 297 100 20</Dimensions>
+  </GameEntity>
+  <GameEntity Type="6" TypeStr="LINESIN" ID="5">
+    <a TypeStr="System.Int32">1</a>
+    <b TypeStr="System.Int32">1</b>
+    <c TypeStr="System.Int32">0</c>
+    <PicWidth TypeStr="System.Int32">20</PicWidth>
+    <PicHeight TypeStr="System.Int32">20</PicHeight>
+    <Speed TypeStr="System.Int32">1</Speed>
+    <SpriteName TypeStr="System.String">water1.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">372 407 100 20</Dimensions>
+  </GameEntity>
+</Entities>
