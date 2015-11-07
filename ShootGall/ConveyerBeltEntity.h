@@ -5,27 +5,30 @@
 #include "DynamicEntity.h"
 class ConveyerBeltEntity :	public DynamicEntity
 {
-
+	// speed of rotation
 	int speed;
 	bool clockwise;
 
+	
 	int dispHeight;
+
+	// properties of sprite
 	int picWidth;
 	int picHeight;
 
+	// total distance in pixels
 	int totalDistance;
 
+	// time period based on the speed
 	float timePeriod;
-	float t1;
-	float t2;
-	float t3;
 
-	float timeForOneSprite;
+	// time we spend waiting in frame
 	float timeInFrame;
+
+	// time it takes to move atleast one frame
 	float timePerPixel;
 
-	float dispTime;
-
+	// the main dimensions of conveyerbelt itself
 	sf::IntRect dimensions;
 
 public:

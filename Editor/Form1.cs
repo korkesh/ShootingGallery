@@ -486,7 +486,7 @@ namespace Editor
         private void TabPanel_Paint(object sender, PaintEventArgs pe)
         {
             Graphics g = pe.Graphics;
-            for (int i = gameEntities_lb.Items.Count - 1; i >= 0; i--)
+            for (int i = 0; i <= gameEntities_lb.Items.Count - 1; i++)
             {
                 GameEntity ge = gameEntities_lb.Items[i] as GameEntity;
                 switch (ge.Type)

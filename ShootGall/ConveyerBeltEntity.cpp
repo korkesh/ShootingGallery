@@ -14,7 +14,6 @@ void ConveyerBeltEntity::draw(sf::RenderTarget &target, sf::RenderStates states)
 }
 
 
-
 ConveyerBeltEntity::~ConveyerBeltEntity()
 {
 }
@@ -42,16 +41,6 @@ void ConveyerBeltEntity::update(float dt)
 				sf::Shape *m_drawShape = m_drawShapes[i];
 				int posY = m_drawShape->getPosition().y;
 				int posX = m_drawShape->getPosition().x;
-
-				// change the time appropriately for each entity that comes after first one
-				float time = timeElpased + (i * dispTime);
-
-				// for entities following first one
-				// change the time if its excedes time period
-				if (time > timePeriod)
-				{
-					time -= timePeriod;
-				}
 
 
 				// there are 4 areas of movement for sqaure
@@ -83,34 +72,6 @@ void ConveyerBeltEntity::update(float dt)
 					posY -= 1;
 				}
 				
-
-
-				//if (time >= 0 && time < t1)
-				//{
-				//	// move the entity right
-				//	posX += 1;
-				//}
-				//// check if the entity is in second time region
-				//else if (time >= t1 && time <= t2)
-				//{
-				//	// move entity down
-				//	posX += 1;
-				//}
-				//// check if the entity is in third time region
-				//else if (time > t2 && time <= t3)
-				//{
-				//	// move entity left
-				//	posX -= 1;
-				//}
-				//// check if the entity is in last
-				//else if (time > t3 && time < timePeriod)
-				//{
-				//	// move entity back up
-				//	posY -= 1;
-				//}
-
-				// if time period has finished
-				//	reset it
 				if (timeElpased >= timePeriod)
 				{
 					timeElpased = 0;

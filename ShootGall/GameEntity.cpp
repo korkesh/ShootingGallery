@@ -298,7 +298,7 @@ GameEntity *ConveyerBeltEntity::CreateConveyerBeltEntity(Editor::EntityType type
 	ConveyerBeltEntity *ge = new ConveyerBeltEntity(ID);
 
 	ge->type = 5;
-
+	ge->isCurtain = false;
 	std::string name;
 	bool clockwise;
 
@@ -352,7 +352,15 @@ GameEntity *ConveyerBeltEntity::CreateConveyerBeltEntity(Editor::EntityType type
 			}
 			else if (propName == "Clockwise")
 			{
-				clockwise = true;
+				std::string cw = (it->second);
+				if (cw == "True")
+				{
+					ge->clockwise = true;
+				}
+				else
+				{
+					ge->clockwise = false;
+				}
 			}
 		}
 	}
@@ -362,6 +370,11 @@ GameEntity *ConveyerBeltEntity::CreateConveyerBeltEntity(Editor::EntityType type
 
 	// remove any extra pixels in height
 	int changedHeight = ((int)ge->dimensions.height / (int)ge->picHeight) * ge->picHeight;
+
+	if (changedHeight == 0)
+	{
+		changedHeight = 1;
+	}
 
 	//change the dimension such that there is no gap
 	ge->dimensions = sf::IntRect(ge->dimensions.left, ge->dimensions.top, changedWidth, changedHeight);
@@ -379,14 +392,6 @@ GameEntity *ConveyerBeltEntity::CreateConveyerBeltEntity(Editor::EntityType type
 	// from totalNumberOfPixels and time period. Calculte how much time will it take to travel one pixel
 	ge->timePerPixel = (float)ge->timePeriod / (float)ge->totalDistance;
 
-	// calculate 3 time periods which are explained in update method of ConveyerBeltEntity
-	ge->t1 = ge->dimensions.width * ge->timePerPixel;
-	ge->t2 = ge->t1 + (ge->dimensions.height * ge->timePerPixel);
-	ge->t3 = ge->t2 + (ge->dimensions.width * ge->timePerPixel);
-
-	// knowing the width of each sprite, calculte how much time will it take to
-	// travel the distance of one sprite
-	ge->timeForOneSprite = (ge->timePerPixel * ge->picWidth);
 
 
 
@@ -460,11 +465,6 @@ GameEntity *ConveyerBeltEntity::CreateConveyerBeltEntity(Editor::EntityType type
 
 		rec.top -= (ge->picHeight);
 
-	}
-
-	if (ge->m_drawShapes.size() > 0)
-	{
-		ge->dispTime = ge->timePeriod / ge->m_drawShapes.size();
 	}
 
 	return ge;
