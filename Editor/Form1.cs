@@ -13,21 +13,9 @@ using System.Xml;
 
 
 namespace Editor
-{
-    //I did not add this 
-
-
+{ 
     public partial class Form1 : Form
     {
-
-        static class Constants
-        {
-            public const int TOP_LEFT = 0;
-            public const int TOP_RIGHT = 1;
-            public const int BOTTOM_RIGHT = 2;
-            public const int BOTTOM_LEFT = 3;
-        }
-
         int tabCount = 1; // Counts the number of tabs which have been created
         List<List<GameEntity>> gameEntityLists = new List<List<GameEntity>>(); // List of game entities belonging to each tab, the index in the list refers to the tab index
 
@@ -934,17 +922,21 @@ namespace Editor
             else if (type == "SPRITE")
             {
                 XmlNode properties = entity.FirstChild;
-                string spriteName = properties.InnerText;
+                string[] outlineColour = properties.InnerText.Split(' ');
 
                 properties = properties.NextSibling;
-                string[] outlineColour = properties.InnerText.Split(' ');
+                bool flipped = Boolean.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
+                string spriteName = properties.InnerText;
 
                 properties = properties.NextSibling;
                 string[] dimension = properties.InnerText.Split(' ');
 
                 ge = GameEntity.CreateSprite(Int32.Parse(dimension[0]), Int32.Parse(dimension[1]), Int32.Parse(dimension[2]), Int32.Parse(dimension[3]));
-                ge.Props["SpriteName"] = spriteName;
                 ge.Props["OutlineColor"] = Color.FromArgb(Int32.Parse(outlineColour[3]), Int32.Parse(outlineColour[0]), Int32.Parse(outlineColour[1]), Int32.Parse(outlineColour[2]));
+                ge.Props["Flipped"] = flipped;
+                ge.Props["SpriteName"] = spriteName;
 
             }
             else if (type == "LINETRACK")
@@ -1026,6 +1018,9 @@ namespace Editor
                 int speed = Int32.Parse(properties.InnerText);
 
                 properties = properties.NextSibling;
+                bool staticBool = Boolean.Parse(properties.InnerText);
+
+                properties = properties.NextSibling;
                 string spriteName = properties.InnerText;
 
                 properties = properties.NextSibling;
@@ -1038,6 +1033,7 @@ namespace Editor
                 ge.Props["PicWidth"] = picWidth;
                 ge.Props["PicHeight"] = picHeight;
                 ge.Props["Speed"] = speed;
+                ge.Props["Static"] = staticBool;
                 ge.Props["SpriteName"] = spriteName;
             }
 
@@ -1204,5 +1200,14 @@ namespace Editor
             gameEntities_lb.Items.Clear();
 
         }
+    }
+
+    // Resize Constants
+    static class Constants
+    {
+        public const int TOP_LEFT = 0;
+        public const int TOP_RIGHT = 1;
+        public const int BOTTOM_RIGHT = 2;
+        public const int BOTTOM_LEFT = 3;
     }
 }

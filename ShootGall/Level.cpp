@@ -46,8 +46,8 @@ bool Level::loadFromFile(std::string filename) {
 
 void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 	//Render each entity in order.
-	for (std::size_t i = 0; i < m_entities.size(); i++) {
-		target.draw(*m_entities[i]);
+	for (std::size_t i = m_entities.size(); i > 0; --i) {
+		target.draw(*m_entities[i - 1]);
 	}
 }
 

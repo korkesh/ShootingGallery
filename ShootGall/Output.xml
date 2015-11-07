@@ -1,11 +1,87 @@
 <Entities>
-  <GameEntity Type="5" TypeStr="CONVEYBELT" ID="0">
-    <DispHieght TypeStr="System.Int32">1</DispHieght>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="14">
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Flipped TypeStr="System.Boolean">True</Flipped>
+    <SpriteName TypeStr="System.String">curtain_side.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">457 3 143 462</Dimensions>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="13">
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Flipped TypeStr="System.Boolean">False</Flipped>
+    <SpriteName TypeStr="System.String">curtain_side.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">2 -2 143 462</Dimensions>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="12">
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Flipped TypeStr="System.Boolean">False</Flipped>
+    <SpriteName TypeStr="System.String">curtain_top.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">440 -2 172 70</Dimensions>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="11">
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Flipped TypeStr="System.Boolean">False</Flipped>
+    <SpriteName TypeStr="System.String">curtain_top.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">163 -9 281 77</Dimensions>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="10">
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Flipped TypeStr="System.Boolean">False</Flipped>
+    <SpriteName TypeStr="System.String">curtain_top.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">-6 -3 172 70</Dimensions>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="9">
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Flipped TypeStr="System.Boolean">False</Flipped>
+    <SpriteName TypeStr="System.String">Curtain.fw.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">0 3 601 476</Dimensions>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="8">
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Flipped TypeStr="System.Boolean">False</Flipped>
+    <SpriteName TypeStr="System.String">cloud1.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">307 36 197 103</Dimensions>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="7">
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Flipped TypeStr="System.Boolean">False</Flipped>
+    <SpriteName TypeStr="System.String">tree_pine.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">67 102 143 285</Dimensions>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="6">
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Flipped TypeStr="System.Boolean">False</Flipped>
+    <SpriteName TypeStr="System.String">bg_wood.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">-2 370 598 97</Dimensions>
+  </GameEntity>
+  <GameEntity Type="4" TypeStr="LINETRACK" ID="4">
+    <DispHeight TypeStr="System.Int32">10</DispHeight>
     <PicWidth TypeStr="System.Int32">50</PicWidth>
-    <PicHeight TypeStr="System.Int32">50</PicHeight>
+    <PicHeight TypeStr="System.Int32">100</PicHeight>
     <Speed TypeStr="System.Int32">1</Speed>
-    <Clockwise TypeStr="System.Boolean">True</Clockwise>
+    <SpriteName TypeStr="System.String">grass2.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">1 285 625 42</Dimensions>
+  </GameEntity>
+  <GameEntity Type="6" TypeStr="LINESIN" ID="2">
+    <a TypeStr="System.Int32">5</a>
+    <b TypeStr="System.Int32">1</b>
+    <c TypeStr="System.Int32">0</c>
+    <PicWidth TypeStr="System.Int32">50</PicWidth>
+    <PicHeight TypeStr="System.Int32">100</PicHeight>
+    <Speed TypeStr="System.Int32">1</Speed>
+    <Static TypeStr="System.Boolean">False</Static>
     <SpriteName TypeStr="System.String">water1.png</SpriteName>
-    <Dimensions TypeStr="System.Drawing.Rectangle">161 226 300 100</Dimensions>
+    <Dimensions TypeStr="System.Drawing.Rectangle">-3 244 615 54</Dimensions>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="1">
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Flipped TypeStr="System.Boolean">False</Flipped>
+    <SpriteName TypeStr="System.String">bg_wood.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">-1 397 598 97</Dimensions>
+  </GameEntity>
+  <GameEntity Type="3" TypeStr="SPRITE" ID="0">
+    <OutlineColor TypeStr="System.Drawing.Color">255 255 255 0</OutlineColor>
+    <Flipped TypeStr="System.Boolean">False</Flipped>
+    <SpriteName TypeStr="System.String">bg_blue.png</SpriteName>
+    <Dimensions TypeStr="System.Drawing.Rectangle">4 -24 599 484</Dimensions>
   </GameEntity>
 </Entities>

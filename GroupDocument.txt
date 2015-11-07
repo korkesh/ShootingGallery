@@ -2,20 +2,17 @@ Group Members: Matthew Correia, Alex Gallagher, Freed Ahmad
 
 Requirement Descriptions:
 
-1. 	Circle has been fully implemented in both the editor and the game. 
-	The Circle game entitiy uses position and radius as its main properties.
+1. Circle has been fully implemented in both the editor and the game. 
+The Circle game entitiy uses position and radius as its main properties.
 
-2.	The ability to create multiple levels is fully implemented. The user can edit multiple levels across multiple tabs with the list of
-	objects being unique to each tab. This is accomplished by storing each set of game entities to a list where the index of the list 
-	refers to the corresponding tab index. You can open and close new tabs as well as save and load the scene of the current tab.
+2.The ability to create multiple levels is fully implemented. The user can edit multiple levels across multiple tabs with the list of objects being unique to each tab. This is accomplished by storing each set of game entities to a list where the index of the list refers to the corresponding tab index. You can open and close new tabs as well as save and load the scene of the current tab.
 
-3. 	Fully implemented the clone, delete, forward and back buttons. Clone is a deep copy of the given game entity and delete removes the selected
-	game entity. Forward and back simply change the ordering of the selected game entity.
+3. Fully implemented the clone, delete, forward and back buttons. Clone is a deep copy of the given game entity and delete removes the selected game entity. Forward and back simply change the ordering of the selected game entity.
 	
 4.	
 
-5.	Sprites are implemented and shown in the editor. Sprites can be flipped/Mirrored but will only show in game. 
+5. Sprites are implemented and shown in the editor. Sprites can be flipped/Mirrored but will only show in game. 
 
-6.	Can implement LineTrack(straight line), ConveyBelt(conveyor belt) and LineSin(waves appear in sin wave with the period of the width if b is 1). Sprites are shown in           Editor. All have the property for the dimension, picture width, picture height and speed. Line sin also has a for amplitude, b for period, c for displacement.
+6. Can implement LineTrack(straight line), ConveyBelt(conveyor belt) and LineSin(waves appear in sin wave with the period of the width if b is 1). Sprites are shown in Editor. All have the property for the dimension, picture width, picture height and speed. Line sin also has a for amplitude, b for period, c for displacement.
 
-7.	Circle has been implemented and can draw on the screen.Sprites are drawn on screen and can be flipped/Mirrored.Line track has sprites going up and down. LineSin has            sprites moving based on the sin wave.Circle, Rectangle and Sprite are all static entities. While LineTrack,LineSin and ConveyBelt are all Dynamic and have an update           specific to each.The update for the static entities is only used for the curtain.
+7. Circle has been implemented and can draw on the screen.Sprites are drawn on screen and can be flipped/Mirrored.Line track has sprites going up and down. LineSin has sprites moving based on the sin wave.Circle, Rectangle and Sprite are all static entities. While LineTrack,LineSin and ConveyBelt are all Dynamic and have an update specific to each.The update for the static entities is only used for the curtain.

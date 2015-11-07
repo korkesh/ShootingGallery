@@ -63,42 +63,41 @@ namespace Editor
                 else if (Type == EntityType.SPRITE)
                 {
                     propsCopy.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = value["OutlineColor"] });
-                    propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
-                    propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = value["SpriteName"] });
                     propsCopy.TryAdd(new CustomProperty { Name = "Flipped", Type = typeof(bool), DefaultValue = value["Flipped"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = value["SpriteName"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
                 }
                 else if (Type == EntityType.LINETRACK)
                 {
-                    propsCopy.TryAdd(new CustomProperty { Name = "DispHeight", Type = typeof(int), DefaultValue = 10 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = 50 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = 50 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = 1 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
-                    propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "DispHeight", Type = typeof(int), DefaultValue = value["DispHeight"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = value["PicWidth"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = value["PicHeight"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = value["Speed"] });
                     propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = value["SpriteName"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
                 }
                 else if (Type == EntityType.CONVEYBELT)
                 {
-                    propsCopy.TryAdd(new CustomProperty { Name = "DispHieght", Type = typeof(int), DefaultValue = 1 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = 50 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = 50 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = 1 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "Clockwise", Type = typeof(bool), DefaultValue = true });
-                    propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
+                    propsCopy.TryAdd(new CustomProperty { Name = "DispHieght", Type = typeof(int), DefaultValue = value["DispHieght"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = value["PicWidth"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = value["PicHeight"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = value["Speed"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Clockwise", Type = typeof(bool), DefaultValue = value["Clockwise"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = value["SpriteName"] });
                     propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
 
                 } 
                 else if (Type == EntityType.LINESIN)
                 {
-                    propsCopy.TryAdd(new CustomProperty { Name = "a", Type = typeof(int), DefaultValue = 1 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "b", Type = typeof(int), DefaultValue = 1 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "c", Type = typeof(int), DefaultValue = 0 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = 20 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = 20 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = 1 });
-                    propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
-                    propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "a", Type = typeof(int), DefaultValue = value["a"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "b", Type = typeof(int), DefaultValue = value["b"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "c", Type = typeof(int), DefaultValue = value["c"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = value["PicWidth"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = value["PicHeight"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = value["Speed"] });
                     propsCopy.TryAdd(new CustomProperty { Name = "Static", Type = typeof(bool), DefaultValue = value["Static"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = value["SpriteName"] });
+                    propsCopy.TryAdd(new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = value["Dimensions"] });
                 }
                 m_props = propsCopy;
             }
@@ -164,7 +163,6 @@ namespace Editor
             ge.Props.TryAdd(new CustomProperty { Name = "FillColor", Type = typeof(Color), DefaultValue = Color.Transparent });
             CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x,y,w,h) };
             ge.Props.TryAdd(dim);
-            //ge.Props.TryAdd(new CustomProperty { Name = "DynamicProperties", Type = typeof(CustomPropertyDictionary), DefaultValue = new CustomPropertyDictionary() });
             
             ge.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
             {
@@ -180,33 +178,7 @@ namespace Editor
             return ge;
         }
 
-        //create sprite
-        public static GameEntity CreateSprite(int x, int y, int w, int h)
-        {
-            GameEntity ge = new GameEntity();
-            ge.Type = EntityType.SPRITE;
-            ge.Props.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
-            ge.Props.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = Color.Transparent });
-            ge.Props.TryAdd(new CustomProperty { Name = "Flipped", Type = typeof(bool), DefaultValue = false });
-            CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x, y, w, h) };
-            ge.Props.TryAdd(dim);
-
-
-            ge.SetBoundingBox = new delSetBoundingBox(delegate(Rectangle r)
-            {
-                ge.Props["Dimensions"] = r;
-            });
-
-            ge.GetBoundingBox = new delGetBoundingBox(delegate()
-            {
-                return ge.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
-            });
-
-
-
-            return ge;
-        }
-
+        // Create Circle
         public static GameEntity CreateCircle(int radius, Point position)
         {
             GameEntity ge = new GameEntity();
@@ -242,6 +214,33 @@ namespace Editor
                 return bb;
 
             });
+
+
+            return ge;
+        }
+
+        //create sprite
+        public static GameEntity CreateSprite(int x, int y, int w, int h)
+        {
+            GameEntity ge = new GameEntity();
+            ge.Type = EntityType.SPRITE;
+            ge.Props.TryAdd(new CustomProperty { Name = "OutlineColor", Type = typeof(Color), DefaultValue = Color.Transparent });
+            ge.Props.TryAdd(new CustomProperty { Name = "Flipped", Type = typeof(bool), DefaultValue = false });
+            ge.Props.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
+            CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x, y, w, h) };
+            ge.Props.TryAdd(dim);
+
+
+            ge.SetBoundingBox = new delSetBoundingBox(delegate (Rectangle r)
+            {
+                ge.Props["Dimensions"] = r;
+            });
+
+            ge.GetBoundingBox = new delGetBoundingBox(delegate ()
+            {
+                return ge.Props["Dimensions"] == null ? (Rectangle)dim.DefaultValue : (Rectangle)ge.Props["Dimensions"];
+            });
+
 
 
             return ge;
@@ -313,8 +312,8 @@ namespace Editor
             ge.Props.TryAdd(new CustomProperty { Name = "PicWidth", Type = typeof(int), DefaultValue = 20 });
             ge.Props.TryAdd(new CustomProperty { Name = "PicHeight", Type = typeof(int), DefaultValue = 20 });
             ge.Props.TryAdd(new CustomProperty { Name = "Speed", Type = typeof(int), DefaultValue = 1 });
-            ge.Props.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
             ge.Props.TryAdd(new CustomProperty { Name = "Static", Type = typeof(bool), DefaultValue = false });
+            ge.Props.TryAdd(new CustomProperty { Name = "SpriteName", Type = typeof(string), DefaultValue = "water1.png" });
             CustomProperty dim = new CustomProperty { Name = "Dimensions", Type = typeof(Rectangle), DefaultValue = new Rectangle(x, y, w, h) };
             ge.Props.TryAdd(dim);
 
